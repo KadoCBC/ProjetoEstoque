@@ -1,5 +1,5 @@
-from PessoaAbstract import Pessoa
-from endereco import Endereco
+from entidades.PessoaAbstract import Pessoa
+from entidades.endereco import Endereco
 
 class Fornecedor(Pessoa):
     def __init__(self, nome: str, id: int):

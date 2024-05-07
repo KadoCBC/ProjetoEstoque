@@ -1,4 +1,4 @@
-from PessoaAbstract import Pessoa
+from entidades.PessoaAbstract import Pessoa
 
 class Usuario(Pessoa):
     def __init__(self, nome: str, id: int):
