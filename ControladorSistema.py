@@ -29,6 +29,5 @@ class ControladorSistema():
             funcao_escolhida = lista_opcoes[opcao_escolhida]
             funcao_escolhida()
 
-
 c1 = ControladorSistema()
 c1.inicialidor_sistema()
