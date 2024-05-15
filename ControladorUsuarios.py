@@ -55,7 +55,6 @@ class ControladorUsuario():
         else:
             pass #Usuario não encontrado, procure na lista
         
-
     def retornar(self):
         self.__controlador_sistema.abre_tela()
 

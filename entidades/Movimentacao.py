@@ -1,15 +1,20 @@
+from datetime import datetime
 
 
 class Movimentacao():
 
-    def __init__(self, qt_mov, instituidor, motivo, data, codigo, brinde, tipo_mov):
+    def __init__(self, qt_mov, instituidor, motivo, codigo, brinde, responsavel):
         self.__qt_mov = qt_mov
         self.__instituidor = instituidor
         self.__motivo = motivo
-        self.__data = data
+        self.__data = datetime.today()
         self.__codigo = codigo
         self.__brinde = brinde
-        self.__tipo_mov = tipo_mov
+        self.__responsavel = responsavel
+        if qt_mov >= 0: 
+            self.__tipo_mov = 'Entrada'
+        else:
+            self.__tipo_mov = 'Saida'
     
     @property
     def qt_mov(self):
@@ -39,17 +44,11 @@ class Movimentacao():
     def data(self):
         return self.__data
     
-    @qt_mov.setter
-    def qt_mov(self, qt: int):
-        self.__qt_mov = qt
-    
-    @motivo.setter
-    def motivo(self, motivo: str):
-        self.__motivo = motivo
-    
-    @instituidor.setter
-    def instituidor(self, instituidor: str):
-        self.__instituidor = instituidor
+    @property
+    def responsavel(self):
+        return self.__responsavel
+
+
     
 
     

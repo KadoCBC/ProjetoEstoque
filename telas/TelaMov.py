@@ -4,8 +4,8 @@ class TelaMov():
         print('---------TELA DE OPÇÕES----------')
         print('[1] - Registrar movimento')
         print('[2] - listar movimento')
-        print('[3] - Alterar movimento')
-        print('[4] - exluir movimento')
+        print('[3] - exluir movimento')
+        print('[4] - ranking de brindes')
         print('[0] - Retornar')
         escolha_usuario = int(input('Escolha um numero'))
         return escolha_usuario
@@ -20,6 +20,10 @@ class TelaMov():
         escolha_brinde = input("Qual é o brinde: ")
         return escolha_brinde
     
+    def escolhe_usuario(self):
+        escolha_usuario = int(input("Escolha o id do usuario: "))
+        return escolha_usuario
+    
     def mostrar_movimento(self, dados_mov):
         print('--------------------------------------------')
         print("Data: ", dados_mov["data"])
@@ -28,6 +32,7 @@ class TelaMov():
         print("Quantidade:" , dados_mov["qt_mov"])
         print("Instituidor:" , dados_mov["instituidor"])
         print("Motivo:", dados_mov["motivo"])
+        print("Responsavel", dados_mov["usuario"])
         print("Codigo:", dados_mov["codigo"])
     
     def seleciona_movimento(self):

@@ -13,7 +13,7 @@ class ControladorSistema():
 
     @property
     def controlador_usuario(self):
-        return self.__controlador_usuarios
+        return self.__controlador_usuario
     
     @property
     def controlador_brinde(self):
@@ -29,16 +29,25 @@ class ControladorSistema():
     def cadastra_usuario(self):
         self.__controlador_usuario.abre_tela()
     
+    def cadastra_brinde(self):
+        self.controlador_brinde.abre_tela()
+    
+    def cadastra_movimentacao(self):
+        self.__controlador_mov.abre_tela()
+    
     def encerra_sistema(self):
         exit(0)
 
-
     def abre_tela(self):
-        lista_opcoes = {1: self.cadastra_usuario, 0: self.encerra_sistema}
+        lista_opcoes = {1: self.cadastra_usuario, 2: self.cadastra_brinde, 3:self.cadastra_movimentacao, 
+                        0: self.encerra_sistema}
 
         while True:
             opcao_escolhida = self.__tela_sistema.tela_opcoes()
             funcao_escolhida = lista_opcoes[opcao_escolhida]
             funcao_escolhida()
 
+
+c1 = ControladorSistema()
+c1.abre_tela()
             

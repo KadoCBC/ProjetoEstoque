@@ -17,7 +17,7 @@ class TelaUsuario():
     def mostrar_usuario(self, dados_usuario):
         print("ID:" , dados_usuario["id"])
         print("Nome:" , dados_usuario["nome"])
-    
+
     def seleciona_usuario(self):
         id = int(input("ID do usuario que deseja selecionar: "))
         return id
