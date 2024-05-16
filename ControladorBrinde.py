@@ -19,9 +19,12 @@ class ControladorBrinde():
         categoria_brinde = dados_brinde["categoria_brinde"]
         """ if categoria_brinde in self.__controlador_sistema.controlador_categoria.lista_categorias:
                 brinde.categoria_brinde = categoria_brinde
+            else:
+                self.__tela_brinde.mostrar_mensagem('Categoria não encontrada - Adicionado valor padrão')
         """
         brinde = Brinde(dados_brinde["nome"], dados_brinde["quantidade"])
         self.lista_brindes.append(brinde)
+        self.__tela_brinde.mostrar_mensagem('**Brinde Criado com Sucesso!**')
 
     #Se a lista não tiver vazia, procura o brinde pelo atributo nome e retorna
     def procura_brindes(self, nome_brinde):
@@ -30,27 +33,32 @@ class ControladorBrinde():
                 if nome_brinde == brinde.nome:
                     return brinde
         else:
-            return #mensagem lis
+            return None
     
     #Retorna na tela as informações de um Brinde
     def informa_brinde(self):
+        self.__tela_brinde.mostrar_mensagem('INFORMAÇÕES DO BRINDE')
         nome_brinde = self.__tela_brinde.seleciona_brinde()
         brinde = self.procura_brindes(nome_brinde)
-        self.__tela_brinde.mostrar_brinde({"nome": brinde.nome, "quantidade": self.calcula_estoque(brinde),
+        if isinstance(brinde, Brinde):
+            self.__tela_brinde.mostrar_brinde({"nome": brinde.nome, "quantidade": self.calcula_estoque(brinde),
                                             "preco": brinde.preco_atual()})
-
+        else:
+            self.__tela_brinde.mostrar_mensagem('**Brinde não encontrado**')
     #Envia os dados para a tela Printar a Lista de brindes
     def listar_brindes(self):
         #Verifica se a lista ta vazia
         if len(self.lista_brindes) == 0:
-            return None   #criar mensagem de lista vazia
+            self.__tela_brinde.mostrar_mensagem('Lista está Vazia')
+            return None
+        self.__tela_brinde.mostrar_mensagem('LISTA DE BRINDES')
         for brinde in self.lista_brindes:
             self.__tela_brinde.mostrar_brinde({"nome": brinde.nome, "quantidade": self.calcula_estoque(brinde),
                                                "preco": brinde.preco_atual()})
 
     # Altera os atributos de um Brinde
     def alterar_brinde(self):
-        #Mensagem de alterar brinde
+        self.__tela_brinde.mostrar_mensagem('informe o Brinde que deseja alterar!')
         #Procura o brinde na lista de brindes
         nome_brinde = self.__tela_brinde.seleciona_brinde()
         brinde_alterar = self.procura_brindes(nome_brinde)
@@ -61,19 +69,25 @@ class ControladorBrinde():
             brinde_alterar.quantidade = dados_brinde["quantidade"]
             categoria_brinde = dados_brinde["categoria_brinde"]
             """if categoria_brinde in self.__controlador_sistema.controlador_categoria.lista_categorias:
-                brinde.categoria_brinde = categoria_brinde"""
+                    brinde.categoria_brinde = categoria_brinde
+                else:
+                    self.__tela_brinde.mostrar_mensagem('Categoria não encontrada - Adicionado valor padrão')
+              """
+            self.__tela_brinde.mostrar_mensagem('**Brinde Alterado com sucesso!**')
         else:
-            pass #Brinde não encontrado, procure na lista
+            self.__tela_brinde.mostrar_mensagem('**Brinde não encontrado**')
+            
 
     def excluir_brinde(self):
-        #Mensagem de excluir brinde
+        self.__tela_brinde.mostrar_mensagem('Digite o Brinde que deseja excluir')
         nome_brinde = self.__tela_brinde.seleciona_brinde()
         #Procura o brinde na lista de brindes
         brinde_excluir = self.procura_brindes(nome_brinde)
         if isinstance(brinde_excluir, Brinde):
             self.lista_brindes.remove(brinde_excluir)
+            self.__tela_brinde.mostrar_mensagem('Brinde excluido com sucesso!')
         else:
-            pass #Brinde não encontrado, procure na lista
+            self.__tela_brinde.mostrar_mensagem('Brinde não encontrado')
     
     #Calcula o estoque de um brinde a partir da lista de movimentações
     def calcula_estoque(self, brinde):

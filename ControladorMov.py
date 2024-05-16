@@ -21,19 +21,21 @@ class ControladorMov():
                 if codigo == movimentacao.codigo:
                     return movimentacao
         else:
-            return #mensagem não tem na lista
+            return None
     
     def incluir_mov(self):
         #Confere se o brinde escolhido para movimentar está na lista de brindes 
         nome_brinde = self.__tela_mov.escolhe_brinde()
         brinde = self.__controlador_sistema.controlador_brinde.procura_brindes(nome_brinde)
         if brinde is None:
-            return print('Brinde não existe, tente novamente') ##mudar para mensagem depois
+            self.__tela_mov.mostrar_mensagem('Brinde não encontrado')
+            return
         #Escolhe um usuario dentro da lista de usuarios
         id_usuario = self.__tela_mov.escolhe_usuario()
         usuario = self.__controlador_sistema.controlador_usuario.procura_usuario(id_usuario)
         if usuario is None:
-            return print('usuario não existe, tente novamente') ##mudar para mensagem depois
+            self.__tela_mov.mostrar_mensagem('Usuario não encontrado')
+            return
         #Pega os dados da movimentação
         dados_mov = self.__tela_mov.dados_movimento()
         #Cria um codigo diferente para cada movimentacao
@@ -44,33 +46,38 @@ class ControladorMov():
         movimentacao = Movimentacao(dados_mov["quantidade"], dados_mov["instituidor"], dados_mov["motivo"], 
                                      cria_codigo, brinde.nome, usuario)
         self.lista_mov.append(movimentacao)
+        self.__tela_mov.mostrar_mensagem('**Movimento criado com sucesso!**')
     
     #Mostra a lista de movimentaçoes - Mensagem
     def listar_mov(self):
+        
         # Verifica se a lista está vazia
         if len(self.lista_mov) == 0:
-            return None   #criar mensagem de lista vazia
+            self.__tela_mov.mostrar_mensagem('Lista de movimentações está vazia!')
+            return None   
+        self.__tela_mov.mostrar_mensagem('LISTA DE MOVIMENTAÇÕES')
         # Percorre a lista e mostra os atributos das mov ela com a funcão da tela
         for mov in self.lista_mov:
             self.__tela_mov.mostrar_movimento({"brinde": mov.brinde, "tipo": mov.tipo_mov, "qt_mov": mov.qt_mov,
                                                 "instituidor": mov.instituidor, "motivo": mov.motivo, 
-                                                "codigo": mov.codigo, "data": mov.data, "usuario": mov.responsavel})
+                                                "codigo": mov.codigo, "data": mov.data, "usuario": mov.responsavel.nome})
     
     def exclui_mov(self):
-        #Mensagem de excluir usuario
+        self.__tela_mov.mostrar_mensagem('Excluir Movimento')
         codigo_mov = self.__tela_mov.seleciona_movimento()
         codigo_valido = isinstance(codigo_mov, int)
         #Validação se é Inteiro 
         while codigo_valido == False:
-            print('Codigo deve ser um inteiro, tente novamente') ##Mudar depois essa funcão para a Tela
+            self.__tela_mov.mostrar_mensagem('Codigo deve ser um inteiro, tente novamente') 
             codigo_mov = self.__tela_mov.seleciona_movimento()
             codigo_invalido = isinstance(codigo_mov, int)
         #Verifica se existe a movimentação e, caso sim,  exclui da lista
         mov_excluir = self.procura_movimentacao(codigo_mov)
         if isinstance(mov_excluir, Movimentacao):
             self.lista_mov.remove(mov_excluir)
+            self.__tela_mov.mostrar_mensagem('**Movimento excluido com sucesso!**')
         else:
-            pass # Mensagem - Usuario não encontrado, procure na lista
+            self.__tela_mov.mostrar_mensagem('Usuario não encontrado')
 
     #Rankea os brindes com maior saida
     def rank_brindes(self):
@@ -84,9 +91,10 @@ class ControladorMov():
                 if mov.brinde == brinde.nome and mov.tipo_mov == 'Saida':
                     quantidade = mov.qt_mov + quantidade
             dicionario_brindes[brinde.nome] = quantidade
+        self.__tela_mov.mostrar_mensagem('RANK DE BRINDES')
         #ordena o dicionario do maior para o menor
         for i in sorted(dicionario_brindes, key = dicionario_brindes.get, reverse=True):
-            print(i, dicionario_brindes[i])
+            self.__tela_mov.mostrar_mensagem(i, dicionario_brindes[i])
 
     def retornar(self):
         self.__controlador_sistema.abre_tela()

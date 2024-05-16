@@ -7,8 +7,12 @@ class TelaMov():
         print('[3] - exluir movimento')
         print('[4] - ranking de brindes')
         print('[0] - Retornar')
-        escolha_usuario = int(input('Escolha um numero'))
-        return escolha_usuario
+        while True :
+            escolha_usuario = int(input('Escolha um numero'))
+            if escolha_usuario >= 0 and escolha_usuario <= 4:
+                return escolha_usuario
+            else:
+                print('Digite um número valido')
         
     def dados_movimento(self):
         qt_mov = int(input('Quantidade: '))
@@ -38,3 +42,6 @@ class TelaMov():
     def seleciona_movimento(self):
         codigo = int(input("Codigo da movimentacao que deseja selecionar: "))
         return codigo
+    
+    def mostrar_mensagem(self, msg):
+        print(msg)

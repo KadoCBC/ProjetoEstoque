@@ -8,7 +8,7 @@ class Brinde():
             self.__quantidade = 0
         self.__nome = nome
         self.__precos = []
-        self.__categoria_brinde = None
+        self.__categoria_brinde = "Geral"
 
     @property
     def nome(self):
