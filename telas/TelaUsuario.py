@@ -7,8 +7,12 @@ class TelaUsuario():
         print('[3] - Alterar Usuario')
         print('[4] - exluir Usuario')
         print('[0] - Retornar')
-        escolha_usuario = int(input('Escolha um numero'))
-        return escolha_usuario
+        while True :
+            escolha_usuario = int(input('Escolha um numero'))
+            if escolha_usuario >= 0 and escolha_usuario <= 4:
+                return escolha_usuario
+            else:
+                print('Digite um número valido')
         
     def pega_dados_usuario(self):
         nome = input('Nome: ')
@@ -17,7 +21,10 @@ class TelaUsuario():
     def mostrar_usuario(self, dados_usuario):
         print("ID:" , dados_usuario["id"])
         print("Nome:" , dados_usuario["nome"])
-    
+
     def seleciona_usuario(self):
         id = int(input("ID do usuario que deseja selecionar: "))
         return id
+    
+    def mostrar_mensagem(self, msg):
+        print(msg)

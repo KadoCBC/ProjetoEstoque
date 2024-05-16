@@ -18,7 +18,7 @@ class ControladorUsuario():
                 if id == usuario.id:
                     return usuario
         else:
-            return #mensagem lis
+            return None
 
     def incluir_usuario(self):
         dados_usuario = self.__tela_usuario.pega_dados_usuario()
@@ -30,12 +30,13 @@ class ControladorUsuario():
     
     def listar_usuarios(self):
         if len(self.lista_usuario) == 0:
-            return None   #criar mensagem de lista vazia
+            self.__tela_usuario.mostrar_mensagem('Lista de Usuarios está vazia')
+            return None  
         for usuario in self.lista_usuario:
             self.__tela_usuario.mostrar_usuario({"id": usuario.id, "nome": usuario.nome})
 
     def alterar_usuario(self):
-        #Mensagem de alterar usuario
+        self.__tela_usuario.mostrar_mensagem('Alterar Usuario:')
         id_usuario = self.__tela_usuario.seleciona_usuario()
         #Fazer codigo para verificar se é inteiro
         usuario_alterar = self.procura_usuario(id_usuario)
@@ -43,19 +44,19 @@ class ControladorUsuario():
             dados_usuario = self.__tela_usuario.pega_dados_usuario()
             usuario_alterar.nome = dados_usuario["nome"]
         else:
-            pass #Usuario não encontrado, procure na lista
+            self.__tela_usuario.mostrar_mensagem('Usuario não encontrado!')
+            
     
     def excluir_usuario(self):
-        #Mensagem de excluir usuario
+        self.__tela_usuario.mostrar_mensagem('Excluir Usuario: ')
         id_usuario = self.__tela_usuario.seleciona_usuario()
         #Fazer codigo para verificar se é inteiro
         usuario_excluir = self.procura_usuario(id_usuario)
         if isinstance(usuario_excluir, Usuario):
             self.lista_usuario.remove(usuario_excluir)
         else:
-            pass #Usuario não encontrado, procure na lista
-        
-
+            self.__tela_usuario.mostrar_mensagem('Usuario não encontrado!')
+            
     def retornar(self):
         self.__controlador_sistema.abre_tela()
 
