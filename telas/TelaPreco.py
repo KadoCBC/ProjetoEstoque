@@ -15,9 +15,17 @@ class TelaPreco():
             else:
                 print('Digite um número valido')
         
-    def pega_dados_brinde(self):
+    def pega_dados_preco(self):
         valor = input('Valor: ')
         data = int(input('Data: '))
-        return {"valor": valor, "data": data}
+        id = int(input("Id: "))
+        return {"valor": valor, "data": data, "id":id}
+    
+    def seleciona_preco(self):
+        id = input("Id do Preco: ")
+        return id
+    
+    def mostrar_mensagem(self, msg):
+        print(msg)
 
 
