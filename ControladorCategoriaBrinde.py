@@ -1,0 +1,2 @@
+class ControladorCategoriaBrinde:
+    pass

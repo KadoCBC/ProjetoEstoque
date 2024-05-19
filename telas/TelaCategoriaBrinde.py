@@ -1,0 +1,2 @@
+class TelaCategoriaBrinde:
+    pass
