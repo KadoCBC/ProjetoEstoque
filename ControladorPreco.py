@@ -23,7 +23,7 @@ class ControladorPreco:
         dados_preco = self.__tela_preco.pega_dados_preco()
         preco = Preco(dados_preco["valor"], dados_preco["data"], dados_preco["id"])
         self.__lista_precos.append(preco)
-        self.__tela_preco.mostrar_mensagem('**Preço Criado com Sucesso!**')
+        self.__tela_preco.mostrar_mensagem('**Preço criado com Sucesso!**')
 
     def excluir_preco(self):
         self.__tela_preco.mostrar_mensagem('Digite o id do Preço que deseja excluir')
@@ -42,9 +42,11 @@ class ControladorPreco:
         preco_alterar = self.procura_precos(id_preco)
         if isinstance(preco_alterar, Preco):
             dados_preco = self.__tela_preco.pega_dados_preco()
-            preco_alterar.valor = dados_preco["Novo valor"]
-            preco_alterar.data = dados_preco["Nova data"]
-            preco_alterar.id = dados_preco["Nova id"]
+            preco_alterar.valor = dados_preco["valor"]
+            preco_alterar.data = dados_preco["data"]
+            preco_alterar.id = dados_preco["id"]
+            self.__tela_preco.mostrar_mensagem('**Preço alterado com sucesso!**')
+
         else:
             self.__tela_preco.mostrar_mensagem('Preço não encontrado!')
 

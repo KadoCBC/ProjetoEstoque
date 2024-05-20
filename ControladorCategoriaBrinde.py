@@ -18,10 +18,7 @@ class ControladorCategoriaBrinde:
             return None
         self.__tela__categoria_brinde.mostrar_mensagem('LISTA DE CATEGORIAS')        
         for categoria in self.__lista_categorias:
-            return categoria
-        
-        for categoria in self.__lista_categorias:
-            return categoria
+            self.__tela__categoria_brinde.mostrar_mensagem(categoria.nome)
         
     def procura_categoria(self, nome):
         if len(self.__lista_categorias) > 0:
@@ -64,4 +61,4 @@ class ControladorCategoriaBrinde:
 
         continua = True
         while continua:
-            lista_opcoes[self.__tela_preco.tela_opcoes()]()
+            lista_opcoes[self.__tela__categoria_brinde.tela_opcoes()]()

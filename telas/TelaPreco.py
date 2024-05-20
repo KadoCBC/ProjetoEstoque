@@ -9,7 +9,7 @@ class TelaPreco():
         print('[0] - Retornar')
         # Faz um loop até o input retornar um numero inteiro entre dois numeros
         while True :
-            escolha_usuario = int(input('Escolha um numero'))
+            escolha_usuario = int(input('Escolha um numero: '))
             if escolha_usuario >= 0 and escolha_usuario <= 4:
                 return escolha_usuario
             else:

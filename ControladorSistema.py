@@ -4,6 +4,7 @@ from ControladorBrinde import ControladorBrinde
 from ControladorMov import ControladorMov
 from ControladorPreco import ControladorPreco
 from ControladorCategoriaBrinde import ControladorCategoriaBrinde
+from ControladorFornecedor import ControladorFornecedor
 
 class ControladorSistema():
     
@@ -14,6 +15,7 @@ class ControladorSistema():
         self.__tela_sistema = TelaSistema()
         self.__controlador_preco = ControladorPreco(self)
         self.__controlador_categoria_brinde = ControladorCategoriaBrinde(self)
+        self.__controlador_fornecedor = ControladorFornecedor(self)
 
     @property
     def controlador_usuario(self):
@@ -35,6 +37,10 @@ class ControladorSistema():
     def controlador_categoria_brinde(self):
         return self.__controlador_categoria_brinde
     
+    @property
+    def controlador_fornecedor(self):
+        return self.__controlador_fornecedor
+    
     def inicialidor_sistema(self):
         self.abre_tela()
     
@@ -52,13 +58,17 @@ class ControladorSistema():
 
     def cadastra_categoria(self):
         self.__controlador_categoria_brinde.abre_tela()
+
+    def cadastra_fornecedor(self):
+        self.__controlador_fornecedor.abre_tela()
     
     def encerra_sistema(self):
         exit(0)
 
     def abre_tela(self):
-        lista_opcoes = {1: self.cadastra_usuario, 2: self.cadastra_brinde, 3:self.cadastra_movimentacao, 
-                        4: self.cadastra_preco, 5: self.cadastra_categoria,
+        lista_opcoes = {1: self.cadastra_usuario, 2: self.cadastra_fornecedor, 
+                        3: self.cadastra_brinde, 4:self.cadastra_movimentacao, 
+                        5: self.cadastra_preco, 6: self.cadastra_categoria,
                         0: self.encerra_sistema}
 
         while True:
