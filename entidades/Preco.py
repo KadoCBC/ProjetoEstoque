@@ -1,8 +1,9 @@
 class Preco:
-    def __init__(self, valor, data, id):
+    def __init__(self, valor, data, id, fornecedor):
         self.__valor = valor
         self.__data = data
         self.__id = id
+        self.__fornecedor = fornecedor
 
     @property
     def valor(self):
@@ -27,3 +28,11 @@ class Preco:
     @id.setter
     def id(self, id):
         self.__id = id
+
+    @property
+    def fornecedor(self):
+        return self.__fornecedor
+
+    @fornecedor.setter
+    def fornecedor(self, fornecedor):
+        self.__fornecedor = fornecedor

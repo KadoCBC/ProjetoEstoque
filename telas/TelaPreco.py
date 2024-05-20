@@ -32,6 +32,11 @@ class TelaPreco():
         print("Data:", dados_preco["data"])
         print("Id:", dados_preco["id"])
         print('------------------------------------------')
+
+    def escolhe_fornecedor(self):
+        esocolha_fornecedor = int(input("Escolha o id do fornecedor: "))
+        return esocolha_fornecedor
+    
     
     def seleciona_preco(self):
         id = input("Id do Preco: ")

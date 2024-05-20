@@ -20,8 +20,14 @@ class ControladorPreco:
             return None
     
     def incluir_preco(self):
+         #Escolhe um fornecedor dentro da lista de fornecedores
+        id_fornecedor = self.__tela_preco.escolhe_fornecedor()
+        fornecedor = self.__controlador_sistema.controlador_fornecedor.procura_fornecedor(id_fornecedor)
+        if fornecedor is None:
+            self.__tela_preco.mostrar_mensagem('Fornecedor não encontrado')
+            return
         dados_preco = self.__tela_preco.pega_dados_preco()
-        preco = Preco(dados_preco["valor"], dados_preco["data"], dados_preco["id"])
+        preco = Preco(dados_preco["valor"], dados_preco["data"], dados_preco["id"], fornecedor)
         self.__lista_precos.append(preco)
         self.__tela_preco.mostrar_mensagem('**Preço criado com Sucesso!**')
 
