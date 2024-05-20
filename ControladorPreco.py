@@ -26,6 +26,9 @@ class ControladorPreco:
         self.__tela_preco.mostrar_mensagem('**Preço criado com Sucesso!**')
 
     def excluir_preco(self):
+        if len(self.__lista_precos) == 0:
+            self.__tela_preco.mostrar_mensagem('Lista de preços está vazia')
+            return None
         self.__tela_preco.mostrar_mensagem('Digite o id do Preço que deseja excluir')
         id_preco = self.__tela_preco.seleciona_preco()
         #Procura o preco na lista de preços
@@ -37,6 +40,9 @@ class ControladorPreco:
             self.__tela_preco.mostrar_mensagem('Preço não encontrado')
             
     def alterar_preco(self):
+        if len(self.__lista_precos) == 0:
+            self.__tela_preco.mostrar_mensagem('Lista de preços está vazia')
+            return None
         self.__tela_preco.mostrar_mensagem('Alterar Preço:')
         id_preco = self.__tela_preco.seleciona_preco()
         preco_alterar = self.procura_precos(id_preco)
@@ -52,11 +58,11 @@ class ControladorPreco:
 
     def listar_precos(self):
         if len(self.__lista_precos) == 0:
-            self.__tela_preco.mostrar_mensagem('Lista está Vazia')
+            self.__tela_preco.mostrar_mensagem('Lista de preços está azia')
             return None
         self.__tela_preco.mostrar_mensagem('LISTA DE PREÇOS')        
         for preco in self.__lista_precos:
-            self.__tela_preco.mostrar_mensagem({"valor": preco.valor, "data": preco.data,"id": preco.id})
+            self.__tela_preco.mostrar_preco({"valor": preco.valor, "data": preco.data,"id": preco.id})
         
     def retornar(self):
         self.__controlador_sistema.abre_tela()

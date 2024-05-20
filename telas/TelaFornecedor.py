@@ -7,10 +7,11 @@ class TelaFornecedor():
         print('[3] - Alterar Fornecedor')
         print('[4] - Exluir Fornecedor')
         print('[5] - Adicionar endereço')
+        print('[6] - Listar Endereços')
         print('[0] - Retornar')
         while True :
             escolha_usuario = int(input('Escolha um numero: '))
-            if escolha_usuario >= 0 and escolha_usuario <= 5:
+            if escolha_usuario >= 0 and escolha_usuario <= 6:
                 return escolha_usuario
             else:
                 print('Digite um número valido')
@@ -29,15 +30,8 @@ class TelaFornecedor():
     
     def mostrar_fornecedor(self, dados_fornecedor):
         print("ID:" , dados_fornecedor["id"])
-        print("Nome:" , dados_fornecedor["nome"])            
-
-    def mostrar_endereco(self, dados_endereco):
-        print("Rua:" , dados_endereco["rua"])   
-        print("Complemento:" , dados_endereco["complemento"])
-        print("Bairro:" , dados_endereco["bairro"])
-        print("Cidade:" , dados_endereco["cidade"])
-        print("CEP:" , dados_endereco["cep"])         
-
+        print("Nome:" , dados_fornecedor["nome"])    
+        print('------------------------------------------')
 
     def seleciona_fornecedor(self):
         id = int(input("ID do fornecedor que deseja selecionar: "))
