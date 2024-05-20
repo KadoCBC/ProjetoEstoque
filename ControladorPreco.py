@@ -2,7 +2,8 @@ from entidades.Preco import Preco
 from telas.TelaPreco import TelaPreco
 
 class ControladorPreco:
-    def __init__(self):
+    def __init__(self, controlador_sistema):
+        self.__controlador_sistema = controlador_sistema
         self.__lista_precos = []
         self.__tela_preco = TelaPreco()
     
@@ -21,7 +22,7 @@ class ControladorPreco:
     def incluir_preco(self):
         dados_preco = self.__tela_preco.pega_dados_preco()
         preco = Preco(dados_preco["valor"], dados_preco["data"], dados_preco["id"])
-        self.lista_precos.append(preco)
+        self.__lista_precos.append(preco)
         self.__tela_preco.mostrar_mensagem('**Preço Criado com Sucesso!**')
 
     def excluir_preco(self):
@@ -30,7 +31,7 @@ class ControladorPreco:
         #Procura o preco na lista de preços
         preco_excluir = self.procura_precos(id_preco)
         if isinstance(preco_excluir, Preco):
-            self.lista_precos.remove(preco_excluir)
+            self.__lista_precos.remove(preco_excluir)
             self.__tela_preco.mostrar_mensagem('Preço excluido com sucesso!')
         else:
             self.__tela_preco.mostrar_mensagem('Preço não encontrado')
@@ -41,13 +42,19 @@ class ControladorPreco:
         preco_alterar = self.procura_precos(id_preco)
         if isinstance(preco_alterar, Preco):
             dados_preco = self.__tela_preco.pega_dados_preco()
-            preco_alterar.valor = dados_preco["valor"]
+            preco_alterar.valor = dados_preco["Novo valor"]
+            preco_alterar.data = dados_preco["Nova data"]
+            preco_alterar.id = dados_preco["Nova id"]
         else:
-            self.__tela_usuario.mostrar_mensagem('Preço não encontrado!')
+            self.__tela_preco.mostrar_mensagem('Preço não encontrado!')
 
     def listar_precos(self):
+        if len(self.__lista_precos) == 0:
+            self.__tela_preco.mostrar_mensagem('Lista está Vazia')
+            return None
+        self.__tela_preco.mostrar_mensagem('LISTA DE PREÇOS')        
         for preco in self.__lista_precos:
-            return preco
+            self.__tela_preco.mostrar_mensagem({"valor": preco.valor, "data": preco.data,"id": preco.id})
         
     def retornar(self):
         self.__controlador_sistema.abre_tela()

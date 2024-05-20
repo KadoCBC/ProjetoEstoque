@@ -17,9 +17,16 @@ class TelaPreco():
         
     def pega_dados_preco(self):
         valor = input('Valor: ')
-        data = int(input('Data: '))
-        id = int(input("Id: "))
+        data = str(input('Data: '))
+        id = input("Id: ")
         return {"valor": valor, "data": data, "id":id}
+    
+    def mostrar_preco(self, dados_preco):
+        print('------------------------------------------')
+        print(dados_preco["valor"])
+        print("Data:" , dados_preco["data"])
+        print("Id: ", dados_preco["id"])
+        print('------------------------------------------')
     
     def seleciona_preco(self):
         id = input("Id do Preco: ")

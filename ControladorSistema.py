@@ -2,6 +2,8 @@ from telas.TelaSistema import TelaSistema
 from ControladorUsuarios import ControladorUsuario
 from ControladorBrinde import ControladorBrinde
 from ControladorMov import ControladorMov
+from ControladorPreco import ControladorPreco
+from ControladorCategoriaBrinde import ControladorCategoriaBrinde
 
 class ControladorSistema():
     
@@ -10,6 +12,8 @@ class ControladorSistema():
         self.__controlador_brinde = ControladorBrinde(self)
         self.__controlador_mov = ControladorMov(self)
         self.__tela_sistema = TelaSistema()
+        self.__controlador_preco = ControladorPreco(self)
+        self.__controlador_categoria_brinde = ControladorCategoriaBrinde(self)
 
     @property
     def controlador_usuario(self):
@@ -23,6 +27,14 @@ class ControladorSistema():
     def controlador_mov(self):
         return self.__controlador_mov
     
+    @property
+    def controlador_preco(self):
+        return self.__controlador_preco
+
+    @property
+    def controlador_categoria_brinde(self):
+        return self.__controlador_categoria_brinde
+    
     def inicialidor_sistema(self):
         self.abre_tela()
     
@@ -34,12 +46,19 @@ class ControladorSistema():
     
     def cadastra_movimentacao(self):
         self.__controlador_mov.abre_tela()
+
+    def cadastra_preco(self):
+        self.__controlador_preco.abre_tela()
+
+    def cadastra_categoria(self):
+        self.__controlador_categoria_brinde.abre_tela()
     
     def encerra_sistema(self):
         exit(0)
 
     def abre_tela(self):
         lista_opcoes = {1: self.cadastra_usuario, 2: self.cadastra_brinde, 3:self.cadastra_movimentacao, 
+                        4: self.cadastra_preco, 5: self.cadastra_categoria,
                         0: self.encerra_sistema}
 
         while True:
