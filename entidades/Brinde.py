@@ -44,6 +44,7 @@ class Brinde():
     def preco_atual(self):
         tamanho_lista = len(self.__precos)
         if tamanho_lista > 0:
-            return self.lista_precos[tamanho_lista - 1]
+            preco = self.lista_precos[tamanho_lista - 1]
+            return preco.valor
         else:
             return None

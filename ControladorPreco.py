@@ -71,17 +71,22 @@ class ControladorPreco:
             self.__tela_preco.mostrar_preco({"valor": preco.valor, "data": preco.data,"id": preco.id})
     
     def vincular_preco(self):
-        if len(self.lista_precos) > 0:
-            self.listar_precos()
-            self.__tela_preco.mostrar_mensagem('Escolha o Id que deseja vincular a um brinde')
-            id = self.__tela_preco.seleciona_preco()
-            preco = self.procura_precos(id)
-            self.__tela_preco.mostrar_mensagem('Escolha o brinde que deseja vincular')
-            nome_brinde = self.__tela_preco.vincula_preco()
-            brinde = self.__controlador_sistema.controlador_brinde.procura_brindes(nome_brinde)
-            brinde.add_preco(preco)
-            self.__lista_precos.remove(preco)
-            self.__tela_preco.mostrar_mensagem('**Preco vinculado com sucesso**')
+        if len(self.__lista_precos) == 0:
+            self.__tela_preco.mostrar_mensagem('Lista de preços está vazia')
+            return None
+        if len (self.__controlador_sistema.controlador_brinde.lista_brindes) == 0:
+            self.__tela_preco.mostrar_mensagem('Lista de brindes está vazia')
+            return None
+        self.listar_precos()
+        self.__tela_preco.mostrar_mensagem('Escolha o Id que deseja vincular a um brinde')
+        id = self.__tela_preco.seleciona_preco()
+        preco = self.procura_precos(id)
+        self.__tela_preco.mostrar_mensagem('Escolha o brinde que deseja vincular')
+        nome_brinde = self.__tela_preco.vincula_preco()
+        brinde = self.__controlador_sistema.controlador_brinde.procura_brindes(nome_brinde)
+        brinde.add_preco(preco)
+        self.__lista_precos.remove(preco)
+        self.__tela_preco.mostrar_mensagem('**Preco vinculado com sucesso**')
         
     def retornar(self):
         self.__controlador_sistema.abre_tela()

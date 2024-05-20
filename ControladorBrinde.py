@@ -16,13 +16,13 @@ class ControladorBrinde():
     #Pega os dados do Brinde, instancia e inclui na lista
     def incluir_brinde(self):
         dados_brinde = self.__tela_brinde.pega_dados_brinde()
-        categoria_brinde = dados_brinde["categoria_brinde"]
+        brinde = Brinde(dados_brinde["nome"], dados_brinde["quantidade"])
+        categoria_nome = dados_brinde["categoria_brinde"]
+        categoria_brinde = self.__controlador_sistema.controlador_categoria_brinde.procura_categoria(categoria_nome)
         if categoria_brinde in self.__controlador_sistema.controlador_categoria_brinde.lista_categorias:
             brinde.categoria_brinde = categoria_brinde
         else:
             self.__tela_brinde.mostrar_mensagem('Categoria não encontrada - Adicionado valor padrão')
-        
-        brinde = Brinde(dados_brinde["nome"], dados_brinde["quantidade"])
         self.lista_brindes.append(brinde)
         self.__tela_brinde.mostrar_mensagem('**Brinde Criado com Sucesso!**')
 
@@ -42,7 +42,7 @@ class ControladorBrinde():
         brinde = self.procura_brindes(nome_brinde)
         if isinstance(brinde, Brinde):
             self.__tela_brinde.mostrar_brinde({"nome": brinde.nome, "quantidade": self.calcula_estoque(brinde),
-                                            "preco": brinde.preco_atual().valor})
+                                            "preco": brinde.preco_atual()})
         else:
             self.__tela_brinde.mostrar_mensagem('**Brinde não encontrado**')
     #Envia os dados para a tela Printar a Lista de brindes

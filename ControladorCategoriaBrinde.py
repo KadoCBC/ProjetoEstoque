@@ -65,7 +65,7 @@ class ControladorCategoriaBrinde:
         if len(self.__lista_categorias) == 0:
             self.__tela__categoria_brinde.mostrar_mensagem('Lista de categorias está vazia')
             return None
-        brindes = self.__controlador_sistema.self.controlador_brinde.lista_brindes
+        brindes = self.__controlador_sistema.controlador_brinde.lista_brindes
         self.__tela__categoria_brinde.mostrar_mensagem('CATEGORIAS E SEUS BRINDES:')
         for categoria in self.__lista_categorias:
             self.__tela__categoria_brinde.mostrar_mensagem(f'Categoria: {categoria.nome}')
@@ -81,7 +81,7 @@ class ControladorCategoriaBrinde:
         self.__controlador_sistema.abre_tela()
     
     def abre_tela(self):
-        lista_opcoes = {1: self.incluir_categoria, 2: self.mostra_lista_categorias, 
+        lista_opcoes = {1: self.incluir_categoria, 2: self.mostrar_categorias, 
                         3: self.alterar_categoria, 4: self.excluir_categoria, 0: self.retornar}
 
         continua = True
