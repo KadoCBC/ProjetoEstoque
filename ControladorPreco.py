@@ -58,21 +58,32 @@ class ControladorPreco:
 
     def listar_precos(self):
         if len(self.__lista_precos) == 0:
-            self.__tela_preco.mostrar_mensagem('Lista de preços está azia')
+            self.__tela_preco.mostrar_mensagem('Lista de preços está vazia')
             return None
         self.__tela_preco.mostrar_mensagem('LISTA DE PREÇOS')        
         for preco in self.__lista_precos:
             self.__tela_preco.mostrar_preco({"valor": preco.valor, "data": preco.data,"id": preco.id})
+    
+    def vincular_preco(self):
+        if len(self.lista_precos) > 0:
+            self.listar_precos()
+            self.__tela_preco.mostrar_mensagem('Escolha o Id que deseja vincular a um brinde')
+            id = self.__tela_preco.seleciona_preco()
+            preco = self.procura_precos(id)
+            self.__tela_preco.mostrar_mensagem('Escolha o brinde que deseja vincular')
+            nome_brinde = self.__tela_preco.vincula_preco()
+            brinde = self.__controlador_sistema.controlador_brinde.procura_brindes(nome_brinde)
+            brinde.add_preco(preco)
+            self.__lista_precos.remove(preco)
+            self.__tela_preco.mostrar_mensagem('**Preco vinculado com sucesso**')
         
     def retornar(self):
         self.__controlador_sistema.abre_tela()
     
     def abre_tela(self):
         lista_opcoes = {1: self.incluir_preco, 2: self.listar_precos, 
-                        3: self.alterar_preco, 4: self.excluir_preco, 0: self.retornar}
+                        3: self.alterar_preco, 4: self.excluir_preco, 5: self.vincular_preco,  0: self.retornar}
 
         continua = True
         while continua:
             lista_opcoes[self.__tela_preco.tela_opcoes()]()
-    
-    

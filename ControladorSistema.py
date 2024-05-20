@@ -41,7 +41,7 @@ class ControladorSistema():
     def controlador_fornecedor(self):
         return self.__controlador_fornecedor
     
-    def inicialidor_sistema(self):
+    def inicializador_sistema(self):
         self.abre_tela()
     
     def cadastra_usuario(self):
@@ -75,8 +75,4 @@ class ControladorSistema():
             opcao_escolhida = self.__tela_sistema.tela_opcoes()
             funcao_escolhida = lista_opcoes[opcao_escolhida]
             funcao_escolhida()
-
-
-c1 = ControladorSistema()
-c1.abre_tela()
-            
+   

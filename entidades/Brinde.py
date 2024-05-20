@@ -47,5 +47,3 @@ class Brinde():
             return self.lista_precos[tamanho_lista - 1]
         else:
             return None
-
-

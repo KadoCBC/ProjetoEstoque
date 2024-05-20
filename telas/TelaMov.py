@@ -7,12 +7,17 @@ class TelaMov():
         print('[3] - exluir movimento')
         print('[4] - ranking de brindes')
         print('[0] - Retornar')
-        while True :
-            escolha_usuario = int(input('Escolha um numero'))
-            if escolha_usuario >= 0 and escolha_usuario <= 4:
-                return escolha_usuario
-            else:
-                print('Digite um número valido')
+        # Faz um loop até o input retornar um numero inteiro entre dois numeros
+        while True:
+            escolha_usuario = input('Escolha um número: ')
+            try:
+                escolha_usuario = int(escolha_usuario)
+                if 0 <= escolha_usuario <= 4:
+                    return escolha_usuario
+                else:
+                    print('Digite um número válido entre 0 e 4.')
+            except ValueError:
+                print('Entrada inválida. Por favor, digite um número.')
         
     def dados_movimento(self):
         qt_mov = int(input('Quantidade: '))
@@ -43,5 +48,9 @@ class TelaMov():
         codigo = int(input("Codigo da movimentacao que deseja selecionar: "))
         return codigo
     
-    def mostrar_mensagem(self, msg):
-        print(msg)
+    def mostrar_mensagem(self, msg, complemento = ''):
+        if complemento != '':
+            print(msg , end = '')
+            print(f" ({complemento})")
+        else: 
+            print(msg)

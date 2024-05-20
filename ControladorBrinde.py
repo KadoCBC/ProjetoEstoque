@@ -17,11 +17,11 @@ class ControladorBrinde():
     def incluir_brinde(self):
         dados_brinde = self.__tela_brinde.pega_dados_brinde()
         categoria_brinde = dados_brinde["categoria_brinde"]
-        """ if categoria_brinde in self.__controlador_sistema.controlador_categoria.lista_categorias:
-                brinde.categoria_brinde = categoria_brinde
-            else:
-                self.__tela_brinde.mostrar_mensagem('Categoria não encontrada - Adicionado valor padrão')
-        """
+        if categoria_brinde in self.__controlador_sistema.controlador_categoria_brinde.lista_categorias:
+            brinde.categoria_brinde = categoria_brinde
+        else:
+            self.__tela_brinde.mostrar_mensagem('Categoria não encontrada - Adicionado valor padrão')
+        
         brinde = Brinde(dados_brinde["nome"], dados_brinde["quantidade"])
         self.lista_brindes.append(brinde)
         self.__tela_brinde.mostrar_mensagem('**Brinde Criado com Sucesso!**')
@@ -42,7 +42,7 @@ class ControladorBrinde():
         brinde = self.procura_brindes(nome_brinde)
         if isinstance(brinde, Brinde):
             self.__tela_brinde.mostrar_brinde({"nome": brinde.nome, "quantidade": self.calcula_estoque(brinde),
-                                            "preco": brinde.preco_atual()})
+                                            "preco": brinde.preco_atual().valor})
         else:
             self.__tela_brinde.mostrar_mensagem('**Brinde não encontrado**')
     #Envia os dados para a tela Printar a Lista de brindes
@@ -68,11 +68,11 @@ class ControladorBrinde():
             brinde_alterar.nome = dados_brinde["nome"]
             brinde_alterar.quantidade = dados_brinde["quantidade"]
             categoria_brinde = dados_brinde["categoria_brinde"]
-            """if categoria_brinde in self.__controlador_sistema.controlador_categoria.lista_categorias:
-                    brinde.categoria_brinde = categoria_brinde
-                else:
-                    self.__tela_brinde.mostrar_mensagem('Categoria não encontrada - Adicionado valor padrão')
-              """
+            if categoria_brinde in self.__controlador_sistema.controlador_categoria_brinde.lista_categorias:
+                brinde_alterar.categoria_brinde = categoria_brinde
+            else:
+                self.__tela_brinde.mostrar_mensagem('Categoria não encontrada - Adicionado valor padrão')
+              
             self.__tela_brinde.mostrar_mensagem('**Brinde Alterado com sucesso!**')
         else:
             self.__tela_brinde.mostrar_mensagem('**Brinde não encontrado**')
@@ -110,5 +110,3 @@ class ControladorBrinde():
         continua = True
         while continua:
             lista_opcoes[self.__tela_brinde.tela_opcoes()]()
-
-

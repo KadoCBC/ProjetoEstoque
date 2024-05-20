@@ -8,4 +8,3 @@ class Fornecedor(Pessoa):
     
     def adicionar_endereco(self, endereco):
         self.__endereco = endereco
-    

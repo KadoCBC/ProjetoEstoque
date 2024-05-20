@@ -106,5 +106,3 @@ class ControladorMov():
         continua = True
         while continua:
             lista_opcoes[self.__tela_mov.tela_opcoes()]()
-    
-

@@ -7,12 +7,17 @@ class TelaUsuario():
         print('[3] - Alterar Usuario')
         print('[4] - exluir Usuario')
         print('[0] - Retornar')
-        while True :
-            escolha_usuario = int(input('Escolha um numero'))
-            if escolha_usuario >= 0 and escolha_usuario <= 4:
-                return escolha_usuario
-            else:
-                print('Digite um número valido')
+        # Faz um loop até o input retornar um numero inteiro entre dois numeros
+        while True:
+            escolha_usuario = input('Escolha um número: ')
+            try:
+                escolha_usuario = int(escolha_usuario)
+                if 0 <= escolha_usuario <= 4:
+                    return escolha_usuario
+                else:
+                    print('Digite um número válido entre 0 e 4.')
+            except ValueError:
+                print('Entrada inválida. Por favor, digite um número.')
         
     def pega_dados_usuario(self):
         nome = input('Nome: ')

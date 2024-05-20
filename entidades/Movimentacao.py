@@ -47,9 +47,3 @@ class Movimentacao():
     @property
     def responsavel(self):
         return self.__responsavel
-
-
-    
-
-    
-

@@ -9,12 +9,16 @@ class TelaBrinde():
         print('[5] - Informações de Brinde')
         print('[0] - Retornar')
         # Faz um loop até o input retornar um numero inteiro entre dois numeros
-        while True :
-            escolha_usuario = int(input('Escolha um numero'))
-            if escolha_usuario >= 0 and escolha_usuario <= 5:
-                return escolha_usuario
-            else:
-                print('Digite um número valido')
+        while True:
+            escolha_usuario = input('Escolha um número: ')
+            try:
+                escolha_usuario = int(escolha_usuario)
+                if 0 <= escolha_usuario <= 5:
+                    return escolha_usuario
+                else:
+                    print('Digite um número válido entre 0 e 5.')
+            except ValueError:
+                print('Entrada inválida. Por favor, digite um número.')
         
     def pega_dados_brinde(self):
         nome = input('Nome: ')
@@ -26,7 +30,7 @@ class TelaBrinde():
         print('------------------------------------------')
         print(dados_brinde["nome"])
         print("Quantidade:" , dados_brinde["quantidade"])
-        print("Preço_atual: R$ ", dados_brinde["preco"])
+        print("Preço atual: R$ ", dados_brinde["preco"])
         print('------------------------------------------')
     
     def seleciona_brinde(self):
@@ -35,5 +39,3 @@ class TelaBrinde():
     
     def mostrar_mensagem(self, msg):
         print(msg)
-
-

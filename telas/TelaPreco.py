@@ -6,14 +6,19 @@ class TelaPreco():
         print('[2] - Listar Preços')
         print('[3] - Alterar Preço')
         print('[4] - Excluir Preço')
+        print('[5] - Vincular Preço')
         print('[0] - Retornar')
         # Faz um loop até o input retornar um numero inteiro entre dois numeros
-        while True :
-            escolha_usuario = int(input('Escolha um numero: '))
-            if escolha_usuario >= 0 and escolha_usuario <= 4:
-                return escolha_usuario
-            else:
-                print('Digite um número valido')
+        while True:
+            escolha_usuario = input('Escolha um número: ')
+            try:
+                escolha_usuario = int(escolha_usuario)
+                if 0 <= escolha_usuario <= 5:
+                    return escolha_usuario
+                else:
+                    print('Digite um número válido entre 0 e 5.')
+            except ValueError:
+                print('Entrada inválida. Por favor, digite um número.')
         
     def pega_dados_preco(self):
         valor = input('Valor: ')
@@ -32,7 +37,9 @@ class TelaPreco():
         id = input("Id do Preco: ")
         return id
     
+    def vincula_preco(self):
+        brinde = input("nome do Brinde: ")
+        return brinde
+    
     def mostrar_mensagem(self, msg):
         print(msg)
-
-

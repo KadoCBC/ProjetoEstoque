@@ -27,5 +27,3 @@ class Preco:
     @id.setter
     def id(self, id):
         self.__id = id
-    
-    

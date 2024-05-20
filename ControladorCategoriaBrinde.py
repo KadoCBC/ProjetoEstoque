@@ -61,7 +61,6 @@ class ControladorCategoriaBrinde:
             categoria_alterar.nome = dados_categoria["nome"]
             self.__tela__categoria_brinde.mostrar_mensagem('**Categoria alterada com sucesso!**')
 
-    '''
     def mostrar_categorias(self):
         if len(self.__lista_categorias) == 0:
             self.__tela__categoria_brinde.mostrar_mensagem('Lista de categorias está vazia')
@@ -76,7 +75,7 @@ class ControladorCategoriaBrinde:
                     self.__tela__categoria_brinde.mostrar_mensagem(f'  - Brinde: {brinde.nome}')
                     tem_brindes = True
             if not tem_brindes:
-                self.__tela__categoria_brinde.mostrar_mensagem('Nenhum brinde cadastrado nessa categoria')'''
+                self.__tela__categoria_brinde.mostrar_mensagem('Nenhum brinde cadastrado nessa categoria')
 
     def retornar(self):
         self.__controlador_sistema.abre_tela()
