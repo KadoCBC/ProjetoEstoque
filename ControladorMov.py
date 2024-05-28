@@ -38,6 +38,13 @@ class ControladorMov():
             return
         #Pega os dados da movimentação
         dados_mov = self.__tela_mov.dados_movimento()
+        #verifica se tem o brinde em estoque
+        qt_em_estoque = self.__controlador_sistema.controlador_brinde.calcula_estoque(brinde)
+        operacao_vef = qt_em_estoque + dados_mov["quantidade"]
+        if operacao_vef < 0:
+            self.__tela_mov.mostrar_mensagem('Quantidade insuficiente em estoque!')
+            self.__tela_mov.mostrar_mensagem(f'quantidade em estoque: {qt_em_estoque}')
+            return 
         #Cria um codigo diferente para cada movimentacao
         cria_codigo = len(self.lista_mov)
         while self.procura_movimentacao(cria_codigo) is not None:

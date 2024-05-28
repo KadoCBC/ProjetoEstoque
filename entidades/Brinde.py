@@ -42,7 +42,7 @@ class Brinde():
         self.lista_precos.append(preco)
     
     def preco_atual(self):
-        tamanho_lista = len(self.__precos)
+        tamanho_lista = len(self.lista_precos)
         if tamanho_lista > 0:
             preco = self.lista_precos[tamanho_lista - 1]
             return preco.valor

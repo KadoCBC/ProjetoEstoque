@@ -96,7 +96,8 @@ class ControladorBrinde():
         #Pega o estoque inicial e soma com as movimentações e retorna
         estoque = brinde.quantidade
         for mov in lista_mov:
-            if mov.brinde == brinde:
+            if mov.brinde == brinde.nome:
+                print('chegou aqui')
                 estoque = mov.qt_mov + estoque
         return estoque
 
