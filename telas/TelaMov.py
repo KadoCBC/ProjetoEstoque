@@ -38,17 +38,73 @@ class TelaMov():
         ]
         self.__window = sg.Window('Sistema de Brindes').Layout(layout)
 
+
     def dados_movimento(self):
-        qt_mov = int(input('Quantidade: '))
-        instituidor = input('Instituidor: ')
-        motivo = input('Motivo: ')
-        return {"quantidade": qt_mov, "instituidor": instituidor, "motivo": motivo}
+        sg.ChangeLookAndFeel('DarkTeal4')
+        layout = [
+            [sg.Text('-------- MOVIMENTAÇÃO ----------', font=("Helvica", 25))],
+            [sg.Text('QUANTIDADE:', size=(15, 1)), sg.InputText('', key='qt_mov')],
+            [sg.Text('INSTITUIDOR:', size=(15, 1)), sg.InputText('', key='instituidor')],
+            [sg.Text('MOTIVO:', size=(15, 1)), sg.InputText('', key='motivo')],
+            [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
+        ]
+        self.__window = sg.Window('Sistema de Brindes').Layout(layout)
 
+        button, values = self.open()
+        nome = values['nome']
+        qt_mov = values['qt_mov']
+        motivo = values['motivo']
+
+        self.close()
+        return {"nome": nome, "qt_mov": qt_mov, "motivo": motivo}
+    
     def escolhe_brinde(self):
-        escolha_brinde = input("Qual é o brinde: ")
-        return escolha_brinde
+        sg.ChangeLookAndFeel('DarkTeal4')
+        layout = [
+            [sg.Text('-------- QUAL BRINDE DESEJA MOVIMENTAR ----------', font=("Helvica", 25))],
+            [sg.Text('NOME DO BRINDE:', size=(15, 1)), sg.InputText('', key='brinde')],
+            [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
+        ]
+        self.__window = sg.Window('Sistema de Brindes').Layout(layout)
+
+        button, values = self.open()
+        brinde = str(values['brinde'])
+        
+        self.close()
+        return {"brinde": brinde}
+    
+    def mostrar_movimento(self, dados_mov):
+        string_todos_mov = ""
+        for dado in dados_mov:
+            string_todos_mov = string_todos_mov + "DATA: " + str(dado["data"]) + '\n'
+            string_todos_mov = string_todos_mov + "BRINDE: " + str(dado["brinde"]) + '\n'
+            string_todos_mov = string_todos_mov + "TIPO: " + str(dado["tipo"]) + '\n'
+            string_todos_mov = string_todos_mov + "QUANTIDADE: " + str(dado["qt_mov"]) + '\n'
+            string_todos_mov = string_todos_mov + "INSTITUIDOR: " + str(dado["instituidor"]) + '\n'
+            string_todos_mov = string_todos_mov + "MOTIVO: " + str(dado["motivo"]) + '\n'
+            string_todos_mov = string_todos_mov + "RESPONSAVEL: " + str(dado["usuario"]) + '\n'
+            string_todos_mov = string_todos_mov + "CODIGO: " + str(dado["codigo"]) + '\n\n'
 
 
+        sg.Popup('-------- LISTA DE MOVIMENTAÇÕES ----------', string_todos_mov)
+
+    def seleciona_movimento(self):
+        sg.ChangeLookAndFeel('DarkTeal4')
+        layout = [
+            [sg.Text('-------- SELECIONAR MOVIMENTAÇÃO ----------', font=("Helvica", 25))],
+            [sg.Text('Digite o codigo da movimentação:', font=("Helvica", 15))],
+            [sg.Text('CODIGO:', size=(15, 1)), sg.InputText('', key='codigo')],
+            [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
+        ]
+        self.__window = sg.Window('Seleciona Brinde').Layout(layout)
+
+        button, values = self.open()
+        codigo = int(values['codigo'])
+        self.close()
+        return codigo
+    
+    def mostrar_mensagem(self, msg):
+        sg.popup("", msg)
 
     def close(self):
         self.__window.Close()
@@ -57,44 +113,10 @@ class TelaMov():
         button, values = self.__window.Read()
         return button, values
 '''
-        while True:
-            escolha_usuario = input('Escolha um número: ')
-            try:
-                escolha_usuario = int(escolha_usuario)
-                if 0 <= escolha_usuario <= 4:
-                    return escolha_usuario
-                else:
-                    print('Digite um número válido entre 0 e 4.')
-            except ValueError:
-                print('Entrada inválida. Por favor, digite um número.')
-        
-
     
-
-    
-    def escolhe_usuario(self):
-        escolha_usuario = int(input("Escolha o id do usuario: "))
-        return escolha_usuario
-    
-    def mostrar_movimento(self, dados_mov):
-        print('--------------------------------------------')
-        print("Data: ", dados_mov["data"])
-        print("Brinde: ", dados_mov["brinde"] )
-        print("Tipo: ", dados_mov["tipo"])
-        print("Quantidade:" , dados_mov["qt_mov"])
-        print("Instituidor:" , dados_mov["instituidor"])
-        print("Motivo:", dados_mov["motivo"])
-        print("Responsavel", dados_mov["usuario"])
-        print("Codigo:", dados_mov["codigo"])
     
     def seleciona_movimento(self):
         codigo = int(input("Codigo da movimentacao que deseja selecionar: "))
         return codigo
     
-    def mostrar_mensagem(self, msg, complemento = ''):
-        if complemento != '':
-            print(msg , end = '')
-            print(f" ({complemento})")
-        else: 
-            print(msg)
 '''

@@ -53,7 +53,7 @@ class TelaBrinde():
         self.__window = sg.Window('Sistema de Brindes').Layout(layout)
 
         button, values = self.open()
-        nome = values['nome']
+        nome = str(values['nome'])
         quantidade = values['quantidade']
         categoria_brinde = values['categoria_brinde']
 
@@ -65,8 +65,7 @@ class TelaBrinde():
         for dado in dados_brinde:
             string_todos_brinde = string_todos_brinde + "BRINDE: " + str(dado["nome"]) + '\n'
             string_todos_brinde = string_todos_brinde + "QUANTIDADE: " + str(dado["quantidade"]) + '\n'
-            string_todos_brinde = string_todos_brinde + "CATEGORIA: " + str(dado["categoria_brinde"]) + '\n\n'
-
+            #falta incluir preco e categoria(no controlador também)
         sg.Popup('-------- LISTA DE USUARIOS ----------', string_todos_brinde)
 
     def seleciona_brinde(self):

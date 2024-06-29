@@ -1,6 +1,6 @@
 from telas.TelaMov import TelaMov
 from entidades.Movimentacao import Movimentacao
-
+from DAOs.Mov_dao import MovimentacaoDAO
 
 
 class ControladorMov():
@@ -8,11 +8,11 @@ class ControladorMov():
     def __init__(self, controlador_sistema):
         self.__tela_mov = TelaMov()
         self.__controlador_sistema = controlador_sistema
-        self.__lista_mov = []
+        self.__movimentacao_DAO = MovimentacaoDAO()
     
     @property
     def lista_mov(self):
-        return self.__lista_mov
+        return self.__movimentacao_DAO.get_all()
     
     def procura_movimentacao(self, codigo):
         #Busca a movimentacão pelo codigo, caso não tenha returna None
@@ -26,7 +26,7 @@ class ControladorMov():
     def incluir_mov(self):
         #Confere se o brinde escolhido para movimentar está na lista de brindes 
         nome_brinde = self.__tela_mov.escolhe_brinde()
-        brinde = self.__controlador_sistema.controlador_brinde.procura_brindes(nome_brinde)
+        brinde = self.__controlador_sistema.controlador_brinde.procura_brindes(nome_brinde['brinde'])
         if brinde is None:
             self.__tela_mov.mostrar_mensagem('Brinde não encontrado')
             return
@@ -52,12 +52,11 @@ class ControladorMov():
         #Cria e inclui a movimentação na lista
         movimentacao = Movimentacao(dados_mov["quantidade"], dados_mov["instituidor"], dados_mov["motivo"], 
                                      cria_codigo, brinde.nome, usuario)
-        self.lista_mov.append(movimentacao)
+        self.__movimentacao_DAO.add(movimentacao)
         self.__tela_mov.mostrar_mensagem('**Movimento criado com sucesso!**')
     
     #Mostra a lista de movimentaçoes - Mensagem
     def listar_mov(self):
-        
         # Verifica se a lista está vazia
         if len(self.lista_mov) == 0:
             self.__tela_mov.mostrar_mensagem('Lista de movimentações está vazia!')
@@ -81,10 +80,10 @@ class ControladorMov():
         #Verifica se existe a movimentação e, caso sim,  exclui da lista
         mov_excluir = self.procura_movimentacao(codigo_mov)
         if isinstance(mov_excluir, Movimentacao):
-            self.lista_mov.remove(mov_excluir)
+            self.__movimentacao_DAO.remove(mov_excluir)
             self.__tela_mov.mostrar_mensagem('**Movimento excluido com sucesso!**')
         else:
-            self.__tela_mov.mostrar_mensagem('Usuario não encontrado')
+            self.__tela_mov.mostrar_mensagem('Movimentação não encontrado')
 
     #Rankea os brindes com maior saida
     def rank_brindes(self):
