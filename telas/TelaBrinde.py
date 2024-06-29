@@ -1,41 +1,95 @@
+import PySimpleGUI as sg
+
+
 class TelaBrinde():
 
+    def __init__(self):
+        self.__window = None
+        self.init_opcoes()
+
     def tela_opcoes(self):
-        print('----------- TELA DE OPÇÕES -----------')
-        print('[1] - Criar novo Brinde')
-        print('[2] - Listar Brindes')
-        print('[3] - Alterar Brinde')
-        print('[4] - Excluir Brinde')
-        print('[5] - Informações de Brinde')
-        print('[0] - Retornar')
-        # Faz um loop até o input retornar um numero inteiro entre dois numeros
-        while True:
-            escolha_usuario = input('Escolha um número: ')
-            try:
-                escolha_usuario = int(escolha_usuario)
-                if 0 <= escolha_usuario <= 5:
-                    return escolha_usuario
-                else:
-                    print('Digite um número válido entre 0 e 5.')
-            except ValueError:
-                print('Entrada inválida. Por favor, digite um número.')
-        
+        self.init_opcoes()
+        button, values = self.open()
+        #fazer tratamento
+        if values['1']:
+            opcao = 1
+        if values['2']:
+            opcao = 2
+        if values['3']:
+            opcao = 3
+        if values['4']:
+            opcao = 4
+        if values['5']:
+            opcao = 5
+        if values['0'] or button in (None, 'Cancelar'):
+            opcao = 0
+        self.close()
+        return opcao
+
+    def init_opcoes(self):
+        sg.ChangeLookAndFeel('DarkTeal4')
+        layout = [
+            [sg.Text('------------ Brindes ---------', font=("Helvica", 25))],
+            [sg.Text('Escolha sua opção', font=("Helvica", 15))],
+            [sg.Radio('Incluir Brinde', "RD1", key='1')],
+            [sg.Radio('Listar Brinde', "RD1", key='2')],
+            [sg.Radio('Alterar Brinde', "RD1", key='3')],
+            [sg.Radio('Excluir Brinde', "RD1", key='4')],
+            [sg.Radio('Informações Brinde', "RD1", key='5')],
+            [sg.Radio('Retornar', "RD1", key='0')],
+            [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
+        ]
+        self.__window = sg.Window('Sistema de Brindes').Layout(layout)
+
     def pega_dados_brinde(self):
-        nome = input('Nome: ')
-        quantidade = int(input('Quantidade: '))
-        categoria_brinde = input('Categoria *caso não tenha digite 0:')
+        sg.ChangeLookAndFeel('DarkTeal4')
+        layout = [
+            [sg.Text('-------- DADOS BRINDE ----------', font=("Helvica", 25))],
+            [sg.Text('Nome:', size=(15, 1)), sg.InputText('', key='nome')],
+            [sg.Text('Quantidade:', size=(15, 1)), sg.InputText('', key='quantidade')],
+            [sg.Text('Categoria:', size=(15, 1)), sg.InputText('', key='categoria_brinde')],
+            [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
+        ]
+        self.__window = sg.Window('Sistema de Brindes').Layout(layout)
+
+        button, values = self.open()
+        nome = values['nome']
+        quantidade = values['quantidade']
+        categoria_brinde = values['categoria_brinde']
+
+        self.close()
         return {"nome": nome, "quantidade": quantidade, "categoria_brinde": categoria_brinde}
     
     def mostrar_brinde(self, dados_brinde):
-        print('------------------------------------------')
-        print(dados_brinde["nome"])
-        print("Quantidade:" , dados_brinde["quantidade"])
-        print("Preço atual: R$ ", dados_brinde["preco"])
-        print('------------------------------------------')
-    
+        string_todos_brinde = ""
+        for dado in dados_brinde:
+            string_todos_brinde = string_todos_brinde + "BRINDE: " + str(dado["nome"]) + '\n'
+            string_todos_brinde = string_todos_brinde + "QUANTIDADE: " + str(dado["quantidade"]) + '\n'
+            string_todos_brinde = string_todos_brinde + "CATEGORIA: " + str(dado["categoria_brinde"]) + '\n\n'
+
+        sg.Popup('-------- LISTA DE USUARIOS ----------', string_todos_brinde)
+
     def seleciona_brinde(self):
-        nome = input("Nome do brinde: ")
+        sg.ChangeLookAndFeel('DarkTeal4')
+        layout = [
+            [sg.Text('-------- SELECIONAR BRINDE ----------', font=("Helvica", 25))],
+            [sg.Text('Digite o nome do Brinde:', font=("Helvica", 15))],
+            [sg.Text('NOME:', size=(15, 1)), sg.InputText('', key='nome')],
+            [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
+        ]
+        self.__window = sg.Window('Seleciona Brinde').Layout(layout)
+
+        button, values = self.open()
+        nome = values['nome']
+        self.close()
         return nome
     
     def mostrar_mensagem(self, msg):
-        print(msg)
+        sg.popup("", msg)
+
+    def close(self):
+        self.__window.Close()
+
+    def open(self):
+        button, values = self.__window.Read()
+        return button, values

@@ -1,13 +1,62 @@
+import PySimpleGUI as sg
+
+
 class TelaMov():
 
+    def __init__(self):
+        self.__window = None
+        self.init_opcoes()
+
     def tela_opcoes(self):
-        print('---------TELA DE OPÇÕES----------')
-        print('[1] - Registrar movimento')
-        print('[2] - listar movimento')
-        print('[3] - exluir movimento')
-        print('[4] - ranking de brindes')
-        print('[0] - Retornar')
-        # Faz um loop até o input retornar um numero inteiro entre dois numeros
+        self.init_opcoes()
+        button, values = self.open()
+        #fazer tratamento
+        if values['1']:
+            opcao = 1
+        if values['2']:
+            opcao = 2
+        if values['3']:
+            opcao = 3
+        if values['4']:
+            opcao = 4
+        if values['0'] or button in (None, 'Cancelar'):
+            opcao = 0
+        self.close()
+        return opcao
+
+    def init_opcoes(self):
+        sg.ChangeLookAndFeel('DarkTeal4')
+        layout = [
+            [sg.Text('------------ Brindes ---------', font=("Helvica", 25))],
+            [sg.Text('Escolha sua opção', font=("Helvica", 15))],
+            [sg.Radio('Registrar movimento', "RD1", key='1')],
+            [sg.Radio('Listar movimento', "RD1", key='2')],
+            [sg.Radio('Exluir movimento', "RD1", key='3')],
+            [sg.Radio('Ranking de brindes', "RD1", key='4')],
+            [sg.Radio('Retornar', "RD1", key='0')],
+            [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
+        ]
+        self.__window = sg.Window('Sistema de Brindes').Layout(layout)
+
+    def dados_movimento(self):
+        qt_mov = int(input('Quantidade: '))
+        instituidor = input('Instituidor: ')
+        motivo = input('Motivo: ')
+        return {"quantidade": qt_mov, "instituidor": instituidor, "motivo": motivo}
+
+    def escolhe_brinde(self):
+        escolha_brinde = input("Qual é o brinde: ")
+        return escolha_brinde
+
+
+
+    def close(self):
+        self.__window.Close()
+
+    def open(self):
+        button, values = self.__window.Read()
+        return button, values
+'''
         while True:
             escolha_usuario = input('Escolha um número: ')
             try:
@@ -19,15 +68,9 @@ class TelaMov():
             except ValueError:
                 print('Entrada inválida. Por favor, digite um número.')
         
-    def dados_movimento(self):
-        qt_mov = int(input('Quantidade: '))
-        instituidor = input('Instituidor: ')
-        motivo = input('Motivo: ')
-        return {"quantidade": qt_mov, "instituidor": instituidor, "motivo": motivo}
+
     
-    def escolhe_brinde(self):
-        escolha_brinde = input("Qual é o brinde: ")
-        return escolha_brinde
+
     
     def escolhe_usuario(self):
         escolha_usuario = int(input("Escolha o id do usuario: "))
@@ -54,3 +97,4 @@ class TelaMov():
             print(f" ({complemento})")
         else: 
             print(msg)
+'''

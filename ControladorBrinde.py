@@ -42,7 +42,7 @@ class ControladorBrinde():
         brinde = self.procura_brindes(nome_brinde)
         if isinstance(brinde, Brinde):
             self.__tela_brinde.mostrar_brinde({"nome": brinde.nome, "quantidade": self.calcula_estoque(brinde),
-                                            "preco": brinde.preco_atual()})
+                                            "preco": brinde.preco_atual()},)
         else:
             self.__tela_brinde.mostrar_mensagem('**Brinde não encontrado**')
     #Envia os dados para a tela Printar a Lista de brindes

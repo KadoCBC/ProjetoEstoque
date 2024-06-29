@@ -1,21 +1,24 @@
 from telas.TelaUsuario import TelaUsuario
 from entidades.Usuario import Usuario
+from DAOs.Usuario_dao import UsuarioDAO
 
 class ControladorUsuario():
 
     def __init__(self, controlador_sistema):
-        self.__usuarios = []
+        self.__usuario_DAO = UsuarioDAO()
         self.__tela_usuario = TelaUsuario()
         self.__controlador_sistema = controlador_sistema
     
     @property
     def lista_usuario(self):
-        return self.__usuarios
+        return self.__usuario_DAO.get_all()
     
     def procura_usuario(self, id):
+        print(id)
         if len(self.lista_usuario) > 0:
             for usuario in self.lista_usuario:
                 if id == usuario.id:
+                    print(usuario)
                     return usuario
         else:
             return None
@@ -26,23 +29,24 @@ class ControladorUsuario():
         while self.procura_usuario(cria_id) is not None:
             cria_id = cria_id + 1
         usuario = Usuario(dados_usuario["nome"], cria_id)
-        self.__usuarios.append(usuario)
+        self.__usuario_DAO.add(usuario)
     
     def listar_usuarios(self):
         if len(self.lista_usuario) == 0:
             self.__tela_usuario.mostrar_mensagem('Lista de Usuarios está vazia')
-            return None  
+            return None
+        dados_usuario = []
         for usuario in self.lista_usuario:
-            self.__tela_usuario.mostrar_usuario({"id": usuario.id, "nome": usuario.nome})
+            dados_usuario.append({"id": usuario.id, "nome": usuario.nome})
+        self.__tela_usuario.mostrar_usuario(dados_usuario)
 
     def alterar_usuario(self):
-        self.__tela_usuario.mostrar_mensagem('Alterar Usuario:')
         id_usuario = self.__tela_usuario.seleciona_usuario()
-        #Fazer codigo para verificar se é inteiro
         usuario_alterar = self.procura_usuario(id_usuario)
         if isinstance(usuario_alterar, Usuario):
             dados_usuario = self.__tela_usuario.pega_dados_usuario()
             usuario_alterar.nome = dados_usuario["nome"]
+            self.__usuario_DAO.update(usuario_alterar)
         else:
             self.__tela_usuario.mostrar_mensagem('Usuario não encontrado!')
             
@@ -53,7 +57,7 @@ class ControladorUsuario():
         #Fazer codigo para verificar se é inteiro
         usuario_excluir = self.procura_usuario(id_usuario)
         if isinstance(usuario_excluir, Usuario):
-            self.lista_usuario.remove(usuario_excluir)
+            self.__usuario_DAO.remove(usuario_excluir)
         else:
             self.__tela_usuario.mostrar_mensagem('Usuario não encontrado!')
             
