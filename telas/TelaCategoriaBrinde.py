@@ -55,9 +55,9 @@ class TelaCategoriaBrinde(TelaAbstract):
         self.close()
         return {"nome": nome}
     
-    def mostrar_categorias(self, dados_usuario):
+    def mostrar_categorias(self, dados_categoria):
         string_todas_categorias = ""
-        for categoria in dados_categoria:
+        for dado in dados_categoria:
             string_todas_categorias = string_todas_categorias + "NOME DA CATEGORIA: " + dado["nome"] + '\n'
         sg.Popup('-------- LISTA DE CATEGORIAS ----------', string_todas_categorias)
 

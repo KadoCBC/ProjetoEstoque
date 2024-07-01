@@ -54,7 +54,7 @@ class ControladorCategoriaBrinde():
         dados_categoria = []
         for categoria in self.lista_categoria:
             dados_categoria.append({"nome": categoria.nome})
-        self.__tela_categoria_brinde.mostrar_categoria(dados_categoria)
+        self.__tela_categoria_brinde.mostrar_categorias(dados_categoria)
 
     def alterar_categoria(self):
         if len(self.lista_categoria) == 0:

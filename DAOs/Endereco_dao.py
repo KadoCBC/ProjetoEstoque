@@ -6,11 +6,11 @@ class EnderecoDAO(DAO):
         super().__init__('enderecos.pkl')
 
     def add(self, endereco: Endereco):
-        if endereco is not None and isinstance(endereco, Endereco):
-            super().add(endereco.rua, endereco)
+        if endereco is not None and isinstance(endereco, Endereco) and isinstance(endereco.cep, int):
+            super().add(endereco.cep, endereco)
 
     def update(self, endereco: Endereco):
-        if endereco is not None and isinstance(endereco, Endereco):
+        if endereco is not None and isinstance(endereco, Endereco) and isinstance(endereco.cep, int):
             super().update(endereco.rua, endereco)
 
     def get(self, key: str):

@@ -2,11 +2,13 @@ from telas.TelaFornecedor import TelaFornecedor
 from entidades.Fornecedor import Fornecedor
 from entidades.Endereco import Endereco
 from DAOs.Fornecedor_dao import FornecedorDAO
+from DAOs.Endereco_dao import EnderecoDAO
 
 class ControladorFornecedor:
 
     def __init__(self, controlador_sistema):
         self.__fornecedor_DAO = FornecedorDAO()
+        self.__enderecos_DAO =  EnderecoDAO()
         self.__fornecedores = []
         self.__tela_fornecedor = TelaFornecedor()
         self.__controlador_sistema = controlador_sistema
@@ -91,15 +93,21 @@ class ControladorFornecedor:
     def adicionar_endereco(self):
         self.__tela_fornecedor.mostrar_mensagem('Adicionar Endereço a um fornecedor:')
         id_fornecedor = self.__tela_fornecedor.seleciona_fornecedor()
+        if id_fornecedor == None:
+            self.__tela_fornecedor.mostrar_mensagem('Fornecedor não existe')
+            return
         fornecedor_selecionado = self.procura_fornecedor(id_fornecedor)
-        if isinstance(fornecedor_selecionado, Fornecedor):
-            dados_endereco = self.__tela_fornecedor.pega_dados_endereco()
-            endereco = Endereco(dados_endereco["rua"], dados_endereco["complemento"], dados_endereco["bairro"], dados_endereco["cidade"], dados_endereco['cep'])
-            self.__enderecos[id_fornecedor] = endereco
-            self.__tela_fornecedor.mostrar_mensagem("Endereço adicionado com sucesso!")
-        else:
-            self.__tela_fornecedor.mostrar_mensagem("Fornecedor não encontrado")
+        try:
+            if fornecedor_selecionado == None:
+                raise KeyError
+            else:
+                dados_endereco = self.__tela_fornecedor.pega_dados_endereco()
+                endereco = Endereco(dados_endereco["rua"], dados_endereco["complemento"], dados_endereco["bairro"], dados_endereco["cidade"], dados_endereco['cep'])
+                self.__enderecos_DAO.update(endereco)
+                self.__tela_fornecedor.mostrar_mensagem("Endereço adicionado com sucesso!")
 
+        except KeyError:
+            self.__tela_fornecedor.mostrar_mensagem('Fornecedor não existe')
             
     def retornar(self):
         self.__controlador_sistema.abre_tela()
