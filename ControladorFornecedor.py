@@ -80,14 +80,13 @@ class ControladorFornecedor:
         except KeyError:
             self.__tela_fornecedor.mostrar_mensagem('Fornecedor não existe')
     
-    def mostrar_lista_enderecos(self):
+    def listar_enderecos(self):
         if len(self.__enderecos) == 0:
-            self.__tela_fornecedor.mostrar_mensagem('Lista de endereços está vazia')
+            self.__tela_fornecedor.mostrar_mensagem('Lista de Endereços está vazia')
             return None
         dados_endereco = []
-        for id_fornecedor in self.__enderecos:
-            endereco = self.__enderecos[id_fornecedor]
-            dados_endereco.append({"id_fornecedor": id_fornecedor, "rua": endereco.rua, "complemento": endereco.complemento, "bairro": endereco.bairro, "cidade": endereco.cidade, "cep": endereco.cep})
+        for id_fornecedor, endereco in self.__enderecos.items():
+            dados_endereco.append({"id": id_fornecedor, "rua": endereco.rua, "complemento": endereco.complemento, "bairro": endereco.bairro, "cidade": endereco.cidade, "cep": endereco.cep})
         self.__tela_fornecedor.mostrar_endereco(dados_endereco)
     
     def adicionar_endereco(self):
@@ -109,7 +108,7 @@ class ControladorFornecedor:
     def abre_tela(self):
         lista_opcoes = {1: self.incluir_fornecedor, 2: self.lista_fornecedores, 
                         3: self.alterar_fornecedor, 4: self.excluir_fornecedor, 
-                        5: self.adicionar_endereco, 6: self.mostrar_lista_enderecos,
+                        5: self.adicionar_endereco, 6: self.listar_enderecos,
                         0: self.retornar}
 
         continua = True

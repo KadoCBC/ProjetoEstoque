@@ -65,20 +65,24 @@ class TelaFornecedor(TelaAbstract):
         sg.ChangeLookAndFeel('DarkTeal4')
         layout = [
             [sg.Text('-------- DADOS ENDEREÇO ----------', font=("Helvica", 25))],
-            [sg.Text('Logradouro:', size=(15, 1)), sg.InputText('', key='logradouro')],
+            [sg.Text('rua:', size=(15, 1)), sg.InputText('', key='rua')],
+            [sg.Text('complemento:', size=(15, 1)), sg.InputText('', key='complemento')],
+            [sg.Text('bairro:', size=(15, 1)), sg.InputText('', key='bairro')],
             [sg.Text('Cidade:', size=(15, 1)), sg.InputText('', key='cidade')],
-            [sg.Text('Estado:', size=(15, 1)), sg.InputText('', key='estado')],
+            [sg.Text('CEP:', size=(15, 1)), sg.InputText('', key='cep')],
             [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
         ]
         self.__window = sg.Window('Sistema de Brindes').Layout(layout)
 
         button, values = self.open()
-        logradouro = values['logradouro']
+        rua = values['rua']
+        complemento = values['complemento']
+        bairro = values['bairro']
         cidade = values['cidade']
-        estado = values['estado']
+        cep = values['cep']
         
         self.close()
-        return {"logradouro": logradouro, "cidade": cidade, "estado": estado}
+        return {"rua": rua, "complemento": complemento,"bairro": bairro, "cidade": cidade,"cep": cep}
     
     def mostrar_fornecedor(self, dados_fornecedor):
         string_todos_fornecedores = ""
@@ -87,6 +91,18 @@ class TelaFornecedor(TelaAbstract):
             string_todos_fornecedores = string_todos_fornecedores + "ID: " + str(dado["id"]) + '\n'
 
         sg.Popup('-------- LISTA DE FORNECEDORES ----------', string_todos_fornecedores)
+
+    def mostrar_endereco(self, dados_endereco):
+        string_todos_enderecos = ""
+        for dado in dados_endereco:
+            string_todos_enderecos = string_todos_enderecos + "ID DO FORNECEDOR: " + str(dado["id"]) + '\n'
+            string_todos_enderecos = string_todos_enderecos + "RUA: " + dado["rua"] + '\n'
+            string_todos_enderecos = string_todos_enderecos + "COMPLEMENTO: " + dado["complemento"] + '\n'
+            string_todos_enderecos = string_todos_enderecos + "BAIRRO: " + dado["bairro"] + '\n'
+            string_todos_enderecos = string_todos_enderecos + "CIDADE: " + dado["cidade"] + '\n'
+            string_todos_enderecos = string_todos_enderecos + "CEP: " + dado["cep"]
+
+        sg.Popup('-------- LISTA DE ENDEREÇOS ----------', string_todos_enderecos)
 
     def seleciona_fornecedor(self):
         sg.ChangeLookAndFeel('DarkTeal4')
