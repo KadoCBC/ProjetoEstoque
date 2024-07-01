@@ -28,11 +28,18 @@ class ControladorFornecedor:
 
     def incluir_fornecedor(self):
         dados_fornecedor = self.__tela_fornecedor.pega_dados_fornecedor()
-        cria_id = len(self.fornecedores)
-        while self.procura_fornecedor(cria_id) is not None:
-            cria_id = cria_id + 1
-        fornecedor = Fornecedor(dados_fornecedor["nome"], cria_id)
-        self.__fornecedor_DAO.add(fornecedor)
+        nome = dados_fornecedor["nome"]
+        try:
+            if nome == '':
+                raise KeyError
+            else:
+                cria_id = len(self.fornecedores)
+                while self.procura_fornecedor(cria_id) is not None:
+                    cria_id = cria_id + 1
+                fornecedor = Fornecedor(nome, cria_id)
+                self.__fornecedor_DAO.add(fornecedor)
+        except KeyError:
+            self.__tela_fornecedor.mostrar_mensagem('Campo de Nome vazio, tente novamente!')
 
     def lista_fornecedores(self):
         if len(self.fornecedores) == 0:
@@ -45,24 +52,34 @@ class ControladorFornecedor:
 
     def alterar_fornecedor(self):
         id_fornecedor = self.__tela_fornecedor.seleciona_fornecedor()
+        if id_fornecedor == None:
+            return
         fornecedor_alterar = self.procura_fornecedor(id_fornecedor)
-        if isinstance(fornecedor_alterar, Fornecedor):
-            dados_fornecedor = self.__tela_fornecedor.pega_dados_fornecdor()
-            fornecedor_alterar.nome = dados_fornecedor["nome"]
-            self.__fornecedor_DAO.update(fornecedor_alterar)
-        else:
-            self.__tela_fornecedor.mostrar_mensagem('Fornecedor não encontrado!')
+        try:
+            if fornecedor_alterar == None:
+                raise KeyError
+            else:
+                dados_fornecedor = self.__tela_fornecedor.pega_dados_fornecedor()
+                fornecedor_alterar.nome = dados_fornecedor["nome"]
+                self.__fornecedor_DAO.update(fornecedor_alterar)
+
+        except KeyError:
+            self.__tela_fornecedor.mostrar_mensagem('Fornecedor não existe')
 
     def excluir_fornecedor(self):
-        self.__tela_fornecedor.mostrar_mensagem('Excluir Fornecedor: ')
         id_fornecedor = self.__tela_fornecedor.seleciona_fornecedor()
-        #Fazer codigo para verificar se é inteiro
+        if id_fornecedor == None:
+            return
         fornecedor_excluir = self.procura_fornecedor(id_fornecedor)
-        if isinstance(fornecedor_excluir, Fornecedor):
-            self.__fornecedor_DAO.remove(fornecedor_excluir)
-        else:
-            self.__tela_fornecedor.mostrar_mensagem('Fornecedor não encontrado!')
+        try:
+            if fornecedor_excluir == None:
+                raise KeyError
+            else:
+                self.__fornecedor_DAO.remove(fornecedor_excluir.id)
 
+        except KeyError:
+            self.__tela_fornecedor.mostrar_mensagem('Fornecedor não existe')
+    
     def mostrar_lista_enderecos(self):
         if len(self.__enderecos) == 0:
             self.__tela_fornecedor.mostrar_mensagem('Lista de endereços está vazia')

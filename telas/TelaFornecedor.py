@@ -1,7 +1,8 @@
 import PySimpleGUI as sg
+from telas.TelaAbstract import TelaAbstract 
 
 
-class TelaFornecedor():
+class TelaFornecedor(TelaAbstract):
 
     def __init__(self):
         self.__window = None
@@ -76,12 +77,16 @@ class TelaFornecedor():
         cidade = values['cidade']
         estado = values['estado']
         
+        self.close()
+        return {"logradouro": logradouro, "cidade": cidade, "estado": estado}
+    
     def mostrar_fornecedor(self, dados_fornecedor):
         string_todos_fornecedores = ""
         for dado in dados_fornecedor:
             string_todos_fornecedores = string_todos_fornecedores + "NOME DO FORNECEDOR: " + dado["nome"] + '\n'
+            string_todos_fornecedores = string_todos_fornecedores + "ID: " + str(dado["id"]) + '\n'
 
-        sg.Popup('-------- LISTA DE FONECEDOR ----------', string_todos_fornecedores)
+        sg.Popup('-------- LISTA DE FORNECEDORES ----------', string_todos_fornecedores)
 
     def seleciona_fornecedor(self):
         sg.ChangeLookAndFeel('DarkTeal4')
@@ -96,7 +101,7 @@ class TelaFornecedor():
         button, values = self.open()
         id = values['ID']
         self.close()
-        return id
+        return self.le_num_inteiro(id)
     
     def mostrar_mensagem(self, msg):
         sg.popup("", msg)
