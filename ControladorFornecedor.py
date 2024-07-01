@@ -17,6 +17,10 @@ class ControladorFornecedor:
     @property
     def fornecedores(self):
         return self.__fornecedor_DAO.get_all()
+    
+    @property
+    def enderecos(self):
+        return self.__enderecos_DAO.get_all()
 
     def procura_fornecedor(self, id):
         if len(self.fornecedores) > 0:
@@ -82,12 +86,12 @@ class ControladorFornecedor:
             self.__tela_fornecedor.mostrar_mensagem('Fornecedor não existe')
     
     def listar_enderecos(self):
-        if len(self.__enderecos) == 0:
+        if len(self.enderecos) == 0:
             self.__tela_fornecedor.mostrar_mensagem('Lista de Endereços está vazia')
             return None
         dados_endereco = []
-        for id_fornecedor, endereco in self.__enderecos.items():
-            dados_endereco.append({"id": id_fornecedor, "rua": endereco.rua, "complemento": endereco.complemento, "bairro": endereco.bairro, "cidade": endereco.cidade, "cep": endereco.cep})
+        for endereco in self.enderecos:
+            dados_endereco.append({"rua": endereco.rua, "complemento": endereco.complemento, "bairro": endereco.bairro, "cidade": endereco.cidade, "cep": endereco.cep})
         self.__tela_fornecedor.mostrar_endereco(dados_endereco)
     
     def adicionar_endereco(self):

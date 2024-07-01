@@ -95,7 +95,6 @@ class TelaFornecedor(TelaAbstract):
     def mostrar_endereco(self, dados_endereco):
         string_todos_enderecos = ""
         for dado in dados_endereco:
-            string_todos_enderecos = string_todos_enderecos + "ID DO FORNECEDOR: " + str(dado["id"]) + '\n'
             string_todos_enderecos = string_todos_enderecos + "RUA: " + dado["rua"] + '\n'
             string_todos_enderecos = string_todos_enderecos + "COMPLEMENTO: " + dado["complemento"] + '\n'
             string_todos_enderecos = string_todos_enderecos + "BAIRRO: " + dado["bairro"] + '\n'
