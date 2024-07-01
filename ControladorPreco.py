@@ -57,7 +57,7 @@ class ControladorPreco:
         id_preco = self.__tela_preco.seleciona_preco()
         if id_preco == None:
             return
-        preco_excluir = self.procura_fornecedor(id_preco)
+        preco_excluir = self.procura_precos(id_preco)
         try:
             if preco_excluir == None:
                 raise KeyError
@@ -68,17 +68,15 @@ class ControladorPreco:
             self.__tela_preco.mostrar_mensagem('Preço não existe')
     
     def alterar_preco(self):
-        if len(self.__lista_precos) == 0:
-            self.__tela_preco.mostrar_mensagem('Lista de preços está vazia')
+        if len(self.precos) == 0:
+            self.__tela_preco.mostrar_mensagem('Lista de Preços está vazia')
             return None
         self.__tela_preco.mostrar_mensagem('Alterar Preço:')
         id_preco = self.__tela_preco.seleciona_preco()
         preco_alterar = self.procura_precos(id_preco)
         if isinstance(preco_alterar, Preco):
             dados_preco = self.__tela_preco.pega_dados_preco()
-            preco_alterar.valor = dados_preco["valor"]
-            preco_alterar.data = dados_preco["data"]
-            self.__preco_DAO.update(preco_alterar)
+            preco_alterar.id = dados_preco["id"]
             self.__tela_preco.mostrar_mensagem('**Preço alterado com sucesso!**')
         else:
             self.__tela_preco.mostrar_mensagem('Preço não encontrado!')

@@ -75,7 +75,7 @@ class TelaCategoriaBrinde(TelaAbstract):
         nome = values['nome']
         
         self.close()
-        return self.le_num_inteiro(nome)
+        return nome
 
     def mostrar_mensagem(self, msg):
         sg.popup("", msg)

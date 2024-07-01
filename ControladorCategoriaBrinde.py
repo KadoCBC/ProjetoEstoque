@@ -38,14 +38,14 @@ class ControladorCategoriaBrinde():
         if len(self.lista_categoria) == 0:
             self.__tela_categoria_brinde.mostrar_mensagem('Lista de Categorias está vazia')
             return None
-        self.__tela_categoria_brinde.mostrar_mensagem('Digite o nome da Categoria que deseja excluir')
+        self.__tela_categoria_brinde.mostrar_mensagem('Excluir Categoria:')
         nome_categoria = self.__tela_categoria_brinde.seleciona_categoria()
         categoria_excluir = self.procura_categoria(nome_categoria)
         if isinstance(categoria_excluir, CategoriaBrinde):
             self.__categoria_DAO.remove(categoria_excluir)
-            self.__tela_categoria_brinde.mostrar_mensagem('Categoria excluida com sucesso!')
+            self.__tela_categoria_brinde.mostrar_mensagem('**Categoria excluída com sucesso!**')
         else:
-            self.__tela_categoria_brinde.mostrar_mensagem('Categoria não encontrada')
+            self.__tela_categoria_brinde.mostrar_mensagem('Categoria não encontrada!')
 
     def listar_categorias(self):
         if len(self.lista_categoria) == 0:
