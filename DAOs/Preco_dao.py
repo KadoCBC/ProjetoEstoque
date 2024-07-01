@@ -7,12 +7,12 @@ class PrecoDAO(DAO):
         super().__init__('preco.pkl')
     
     def add(self, preco: Preco):
-        if((preco is not None) and isinstance(preco, Preco) and isinstance(preco.valor, int)):
-            super().add(preco.valor, preco)
+        if((preco is not None) and isinstance(preco, Preco) and isinstance(preco.id, int)):
+            super().add(preco.id, preco)
     
     def update(self, preco: Preco):
-        if((preco is not None) and isinstance(preco, Preco) and isinstance(preco.valor, int)):
-            super().update(preco.valor, preco)
+        if((preco is not None) and isinstance(preco, Preco) and isinstance(preco.id, int)):
+            super().update(preco.id, preco)
 
     def get(self, key:int):
         if isinstance(key, int):

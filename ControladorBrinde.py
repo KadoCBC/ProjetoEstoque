@@ -10,7 +10,7 @@ class ControladorBrinde():
         self.__controlador_sistema = controlador_sistema
         self.__brinde_DAO = BrindeDAO()
         self.__tela_brinde = TelaBrinde()
-        self.__id_unico = 0
+        self.__id_unico = len(self.lista_brindes)
     
     @property
     def lista_brindes(self):
@@ -29,18 +29,13 @@ class ControladorBrinde():
         if len(self.lista_brindes) > 0:
             for brinde in self.lista_brindes:
                 if nome_brinde == brinde.nome:
-                    print('achou')
                     return brinde
-        else:
-            print(type(nome_brinde))
-            print('oi')
             return None
     #PROCURA POR ID
     def procura_brindes_id(self, id):
         if len(self.lista_brindes) > 0:
             for brinde in self.lista_brindes:
                 if id == brinde.id:
-                    print('achou')
                     return brinde
             return None
     
@@ -54,9 +49,9 @@ class ControladorBrinde():
         try:
             if brinde == None and quantidade != None:
                 #Cria um id unico para cada brinde
-                id = self.__id_unico
+                id = self.__id_unico + 1
                 brinde = Brinde(nome, quantidade, id)
-                self.__id_unico = id + 1
+                self.__id_unico = id
             elif quantidade == None:
                 return
             else:
@@ -71,7 +66,7 @@ class ControladorBrinde():
             if categoria_brinde == None:
                 raise KeyError
             else:
-                brinde.categoria_brinde = categoria_brinde
+                brinde.categoria_brinde = categoria_brinde.nome
         except KeyError:
             self.__tela_brinde.mostrar_mensagem('Categoria não existe, valor :Geral: foi adicionado')
         self.__brinde_DAO.add(brinde)
@@ -82,13 +77,14 @@ class ControladorBrinde():
         self.__tela_brinde.mostrar_mensagem('INFORMAÇÕES DO BRINDE')
         nome_brinde = self.__tela_brinde.seleciona_brinde()
         brinde = self.procura_brindes(nome_brinde)
+        dados_brinde = []
         #tratamento de dados
         try:
             if brinde == None:
                 raise KeyError
             else:
-                dados_brinde = ({"nome": brinde.nome, "quantidade": self.calcula_estoque(brinde),
-                                        "preco": brinde.preco_atual(), "id": brinde.id})
+                dados_brinde.append({"nome": brinde.nome, "quantidade": self.calcula_estoque(brinde),
+                                        "preco": brinde.preco_atual(), "id": brinde.id, "categoria": brinde.categoria_brinde})
             self.__tela_brinde.mostrar_brinde(dados_brinde)
         except KeyError:
             self.__tela_brinde.mostrar_mensagem('Brinde não encontrado!')
@@ -103,27 +99,27 @@ class ControladorBrinde():
         dados_brinde = []
         for brinde in self.lista_brindes:
             dados_brinde.append({"nome": brinde.nome, "quantidade": self.calcula_estoque(brinde),
-                                               "preco": brinde.preco_atual(), "id": brinde.id})
+                                               "preco": brinde.preco_atual(), "id": brinde.id, "categoria": brinde.categoria_brinde})
         self.__tela_brinde.mostrar_brinde(dados_brinde)
 
     # Altera os atributos de um Brinde
     def alterar_brinde(self):
         #Procura o brinde na lista de brindes
         nome_brinde = self.__tela_brinde.seleciona_brinde()
-        quantidade = dados_brinde["quantidade"]
+
         brinde_alterar = self.procura_brindes(nome_brinde)
         #Tratamento de Dados
         try:
             if brinde_alterar == None:
                 raise KeyError
-            elif quantidade == None:
-                return
             else:
                 dados_brinde = self.__tela_brinde.pega_dados_brinde()
+                if dados_brinde["quantidade"] == None:
+                    return
                 brinde_alterar.nome = dados_brinde["nome"]
                 brinde_alterar.quantidade = dados_brinde["quantidade"]
                 categoria_brinde = dados_brinde["categoria_brinde"]
-                if categoria_brinde in self.__controlador_sistema.controlador_categoria_brinde.lista_categorias:
+                if categoria_brinde in self.__controlador_sistema.controlador_categoria_brinde.lista_categoria:
                     brinde_alterar.categoria_brinde = categoria_brinde
                 else:
                     self.__tela_brinde.mostrar_mensagem('Categoria não encontrada - Adicionado valor padrão')

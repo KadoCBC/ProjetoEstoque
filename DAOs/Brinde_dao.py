@@ -14,10 +14,10 @@ class BrindeDAO(DAO):
         if((brinde is not None) and isinstance(brinde, Brinde) and isinstance(brinde.id, int)):
             super().update(brinde.id, brinde)
 
-    def get(self, key:str):
-        if isinstance(key, str):
+    def get(self, key:int):
+        if isinstance(key, int):
             return super().get(key)
 
-    def remove(self, key:str):
-        if(isinstance(key, str)):
+    def remove(self, key:int):
+        if(isinstance(key, int)):
             return super().remove(key)

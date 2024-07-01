@@ -31,7 +31,7 @@ class TelaSistema():
     def init_opcoes(self):
         sg.ChangeLookAndFeel('DarkTeal4')
         layout = [
-            [sg.Text('------------ TELA INICIAL ------------', font=("Helvica", 25))],
+            [sg.Text('------------ Tela Inicial ------------', font=("Helvica", 25))],
             [sg.Text('Escolha sua opção', font=("Helvica", 15))],
             [sg.Radio('Usuarios', "RD1", key='1')],
             [sg.Radio('Fornecedores', "RD1", key='2')],

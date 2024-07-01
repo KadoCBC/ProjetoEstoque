@@ -11,7 +11,7 @@ class ControladorPreco:
     
     @property
     def precos(self):
-        self.__preco_DAO.get_all() 
+        return self.__preco_DAO.get_all() 
     
     def procura_precos(self, id_preco):
         if len(self.precos) > 0:
@@ -35,14 +35,17 @@ class ControladorPreco:
                 data = dados_preco["data"]
                 id = dados_preco["id"]
                 try:
-                    if valor == '' or data == '' or id == '':
+                    if valor == '' or data == '' or id == None:
                         raise KeyError
                     else:
-                        preco = Preco(valor, data, id, fornecedor_selecionado)
-                        self.__preco_DAO.add(preco)
+                        tem_id = self.procura_precos(id)
+                        if tem_id == None:
+                            preco = Preco(valor, data, id, fornecedor_selecionado)
+                            self.__preco_DAO.add(preco)
+                            self.__tela_preco.mostrar_mensagem('Preço adicionado com Sucesso!')
                 except KeyError:
-                    self.__tela_preco.mostrar_mensagem('Campo de valor, data ou id vazio, tente novamente')
-
+                    self.__tela_preco.mostrar_mensagem('Campo de valor, data ou id invalido, tente novamente')
+        
         except KeyError:
             self.__tela_preco.mostrar_mensagem('Fornecedor não existe')
         
@@ -96,10 +99,13 @@ class ControladorPreco:
         self.listar_precos()
         id = self.__tela_preco.seleciona_preco()
         preco = self.procura_precos(id)
+        print(preco)
         nome_brinde = self.__tela_preco.seleciona_brinde()
         brinde = self.__controlador_sistema.controlador_brinde.procura_brindes(nome_brinde)
+        if brinde == None:
+            return
         brinde.add_preco(preco)
-        self.precos.remove(preco)
+        self.__preco_DAO.remove(preco.id)
         self.__tela_preco.mostrar_mensagem('**Preco vinculado com sucesso**')
         
     def retornar(self):

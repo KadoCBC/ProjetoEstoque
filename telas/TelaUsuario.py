@@ -28,7 +28,7 @@ class TelaUsuario(TelaAbstract):
     def init_opcoes(self):
         sg.ChangeLookAndFeel('DarkTeal4')
         layout = [
-            [sg.Text('------------ Usuarios ---------', font=("Helvica", 25))],
+            [sg.Text('--------- Usuarios ---------', font=("Helvica", 25))],
             [sg.Text('Escolha sua opção', font=("Helvica", 15))],
             [sg.Radio('Incluir usuario', "RD1", key='1')],
             [sg.Radio('Listar usuario', "RD1", key='2')],
@@ -43,7 +43,7 @@ class TelaUsuario(TelaAbstract):
     def pega_dados_usuario(self):
         sg.ChangeLookAndFeel('DarkTeal4')
         layout = [
-            [sg.Text('-------- DADOS USUARIO ----------', font=("Helvica", 25))],
+            [sg.Text('-------- Dados Usuario --------', font=("Helvica", 25))],
             [sg.Text('Nome:', size=(15, 1)), sg.InputText('', key='nome')],
             [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
         ]
@@ -66,7 +66,7 @@ class TelaUsuario(TelaAbstract):
     def seleciona_usuario(self):
         sg.ChangeLookAndFeel('DarkTeal4')
         layout = [
-            [sg.Text('-------- SELECIONAR USUARIO ----------', font=("Helvica", 25))],
+            [sg.Text('-------- Selecionar Usuario --------', font=("Helvica", 25))],
             [sg.Text('Digite o ID do usuario que deseja selecionar:', font=("Helvica", 15))],
             [sg.Text('ID:', size=(15, 1)), sg.InputText('', key='ID')],
             [sg.Button('Confirmar'), sg.Cancel('Cancelar')]

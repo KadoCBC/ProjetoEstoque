@@ -29,7 +29,7 @@ class TelaPreco(TelaAbstract):
     def init_opcoes(self):
         sg.ChangeLookAndFeel('DarkTeal4')
         layout = [
-            [sg.Text('------------ Preços ---------', font=("Helvica", 25))],
+            [sg.Text('--------- Preços ---------', font=("Helvica", 25))],
             [sg.Text('Escolha sua opção', font=("Helvica", 15))],
             [sg.Radio('Criar Preço', "RD1", key='1')],
             [sg.Radio('Listar Preços', "RD1", key='2')],
@@ -44,7 +44,7 @@ class TelaPreco(TelaAbstract):
     def pega_dados_preco(self):
         sg.ChangeLookAndFeel('DarkTeal4')
         layout = [
-            [sg.Text('-------- DADOS BRINDE ----------', font=("Helvica", 25))],
+            [sg.Text('-------- Dados Brinde --------', font=("Helvica", 25))],
             [sg.Text('Valor:', size=(15, 1)), sg.InputText('', key='valor')],
             [sg.Text('Data:', size=(15, 1)), sg.InputText('', key='data')],
             [sg.Text('ID:', size=(15, 1)), sg.InputText('', key='id')],
@@ -55,7 +55,8 @@ class TelaPreco(TelaAbstract):
         button, values = self.open()
         valor = str(values['valor'])
         data = values['data']
-        id = values['id']
+        id_lido = values['id']
+        id =  self.le_num_inteiro(id_lido)
 
         self.close()
         return {"valor": valor, "data": data, "id": id}
@@ -63,14 +64,15 @@ class TelaPreco(TelaAbstract):
     def mostrar_preco(self, dados_preco):
         string_todos_preco = ""
         for dado in dados_preco:
-            string_todos_preco = string_todos_preco + "VALOR" + str(dado["valor"]) + '\n'
-            string_todos_brinde = string_todos_brinde + "DATA: " + str(dado["data"]) + '\n'
+            string_todos_preco = string_todos_preco + "VALOR: R$" + str(dado["valor"]) + '\n'
+            string_todos_preco = string_todos_preco + "DATA: " + str(dado["data"]) + '\n'
+            string_todos_preco = string_todos_preco + "ID: " + str(dado["id"]) + '\n\n'
         sg.Popup('-------- LISTA DE PREÇOS ----------', string_todos_preco)
 
     def seleciona_preco(self):
         sg.ChangeLookAndFeel('DarkTeal4')
         layout = [
-            [sg.Text('-------- SELECIONAR PREÇO ----------', font=("Helvica", 25))],
+            [sg.Text('-------- Selecionar Preço --------', font=("Helvica", 25))],
             [sg.Text('Digite o id do Preço:', font=("Helvica", 15))],
             [sg.Text('ID:', size=(15, 1)), sg.InputText('', key='id')],
             [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
@@ -78,14 +80,16 @@ class TelaPreco(TelaAbstract):
         self.__window = sg.Window('Seleciona Preço').Layout(layout)
 
         button, values = self.open()
-        id = values['id']
+        id_lido = values['id']
+        id =  self.le_num_inteiro(id_lido)
+        
         self.close()
         return id
     
     def seleciona_fornecedor(self):
         sg.ChangeLookAndFeel('DarkTeal4')
         layout = [
-            [sg.Text('-------- SELECIONAR FORNECEDOR ----------', font=("Helvica", 25))],
+            [sg.Text('-------- Selecionar Fornecedor --------', font=("Helvica", 25))],
             [sg.Text('Digite o ID do fornecedor que deseja selecionar:', font=("Helvica", 15))],
             [sg.Text('ID:', size=(15, 1)), sg.InputText('', key='ID')],
             [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
@@ -100,9 +104,9 @@ class TelaPreco(TelaAbstract):
     def seleciona_brinde(self):
         sg.ChangeLookAndFeel('DarkTeal4')
         layout = [
-            [sg.Text('-------- SELECIONAR BRINDE ----------', font=("Helvica", 25))],
+            [sg.Text('-------- Selecionar Brinde --------', font=("Helvica", 25))],
             [sg.Text('Digite o nome do Brinde:', font=("Helvica", 15))],
-            [sg.Text('ID:', size=(15, 1)), sg.InputText('', key='id')],
+            [sg.Text('Nome:', size=(15, 1)), sg.InputText('', key='nome')],
             [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
         ]
         self.__window = sg.Window('Seleciona Preço').Layout(layout)

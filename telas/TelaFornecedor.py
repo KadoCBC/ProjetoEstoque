@@ -32,7 +32,7 @@ class TelaFornecedor(TelaAbstract):
     def init_opcoes(self):
         sg.ChangeLookAndFeel('DarkTeal4')
         layout = [
-            [sg.Text('------------ Fornecedores ---------', font=("Helvica", 25))],
+            [sg.Text('--------- Fornecedores ---------', font=("Helvica", 25))],
             [sg.Text('Escolha sua opção', font=("Helvica", 15))],
             [sg.Radio('Incluir fornecedor', "RD1", key='1')],
             [sg.Radio('Listar fornecedores', "RD1", key='2')],
@@ -49,7 +49,7 @@ class TelaFornecedor(TelaAbstract):
     def pega_dados_fornecedor(self):
         sg.ChangeLookAndFeel('DarkTeal4')
         layout = [
-            [sg.Text('-------- DADOS FORNECEDOR ----------', font=("Helvica", 25))],
+            [sg.Text('-------- Dados Fornecedor --------', font=("Helvica", 25))],
             [sg.Text('Nome:', size=(15, 1)), sg.InputText('', key='nome')],
             [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
         ]
@@ -64,7 +64,7 @@ class TelaFornecedor(TelaAbstract):
     def pega_dados_endereco(self):
         sg.ChangeLookAndFeel('DarkTeal4')
         layout = [
-            [sg.Text('-------- DADOS ENDEREÇO ----------', font=("Helvica", 25))],
+            [sg.Text('-------- Dados Endereço--------', font=("Helvica", 25))],
             [sg.Text('rua:', size=(15, 1)), sg.InputText('', key='rua')],
             [sg.Text('complemento:', size=(15, 1)), sg.InputText('', key='complemento')],
             [sg.Text('bairro:', size=(15, 1)), sg.InputText('', key='bairro')],
@@ -106,7 +106,7 @@ class TelaFornecedor(TelaAbstract):
     def seleciona_fornecedor(self):
         sg.ChangeLookAndFeel('DarkTeal4')
         layout = [
-            [sg.Text('-------- SELECIONAR FORNECEDOR ----------', font=("Helvica", 25))],
+            [sg.Text('-------- Selecionar Fornecedor ----------', font=("Helvica", 25))],
             [sg.Text('Digite o ID do fornecedor que deseja selecionar:', font=("Helvica", 15))],
             [sg.Text('ID:', size=(15, 1)), sg.InputText('', key='ID')],
             [sg.Button('Confirmar'), sg.Cancel('Cancelar')]

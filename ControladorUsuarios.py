@@ -17,7 +17,6 @@ class ControladorUsuario():
         if len(self.lista_usuario) > 0:
             for usuario in self.lista_usuario:
                 if id == usuario.id:
-                    print('tb')
                     return usuario
         else:
             return None

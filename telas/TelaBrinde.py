@@ -30,7 +30,7 @@ class TelaBrinde(TelaAbstract):
     def init_opcoes(self):
         sg.ChangeLookAndFeel('DarkTeal4')
         layout = [
-            [sg.Text('------------ Brindes ---------', font=("Helvica", 25))],
+            [sg.Text('--------- Brindes ---------', font=("Helvica", 25))],
             [sg.Text('Escolha sua opção', font=("Helvica", 15))],
             [sg.Radio('Incluir Brinde', "RD1", key='1')],
             [sg.Radio('Listar Brinde', "RD1", key='2')],
@@ -45,7 +45,7 @@ class TelaBrinde(TelaAbstract):
     def pega_dados_brinde(self):
         sg.ChangeLookAndFeel('DarkTeal4')
         layout = [
-            [sg.Text('-------- DADOS BRINDE ----------', font=("Helvica", 25))],
+            [sg.Text('-------- Dados Brinde --------', font=("Helvica", 25))],
             [sg.Text('Nome:', size=(15, 1)), sg.InputText('', key='nome')],
             [sg.Text('Quantidade:', size=(15, 1)), sg.InputText('', key='quantidade')],
             [sg.Text('Categoria:', size=(15, 1)), sg.InputText('', key='categoria_brinde')],
@@ -67,14 +67,17 @@ class TelaBrinde(TelaAbstract):
         for dado in dados_brinde:
             string_todos_brinde = string_todos_brinde + "ID: " + str(dado["id"]) + '\n'
             string_todos_brinde = string_todos_brinde + "BRINDE: " + str(dado["nome"]) + '\n'
-            string_todos_brinde = string_todos_brinde + "QUANTIDADE: " + str(dado["quantidade"]) + '\n\n'
+            string_todos_brinde = string_todos_brinde + "QUANTIDADE: " + str(dado["quantidade"]) + '\n'
+            if dado["preco"] != None:
+                string_todos_brinde = string_todos_brinde + "PREÇO: R$" + str(dado["preco"]) + '\n'
+            string_todos_brinde = string_todos_brinde + "CATEGORIA: " + str(dado["categoria"]) + '\n\n'
             #falta incluir preco e categoria(no controlador também)
         sg.Popup('-------- LISTA DE BRINDES ----------', string_todos_brinde)
 
     def seleciona_brinde(self):
         sg.ChangeLookAndFeel('DarkTeal4')
         layout = [
-            [sg.Text('-------- SELECIONAR BRINDE ----------', font=("Helvica", 25))],
+            [sg.Text('-------- Selecionar Brinde --------', font=("Helvica", 25))],
             [sg.Text('Digite o nome do Brinde:', font=("Helvica", 15))],
             [sg.Text('NOME:', size=(15, 1)), sg.InputText('', key='nome')],
             [sg.Button('Confirmar'), sg.Cancel('Cancelar')]

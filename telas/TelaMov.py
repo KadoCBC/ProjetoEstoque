@@ -28,7 +28,7 @@ class TelaMov(TelaAbstract):
     def init_opcoes(self):
         sg.ChangeLookAndFeel('DarkTeal4')
         layout = [
-            [sg.Text('------------ Brindes ---------', font=("Helvica", 25))],
+            [sg.Text('--------- Brindes ---------', font=("Helvica", 25))],
             [sg.Text('Escolha sua opção', font=("Helvica", 15))],
             [sg.Radio('Registrar movimento', "RD1", key='1')],
             [sg.Radio('Listar movimento', "RD1", key='2')],
@@ -43,7 +43,7 @@ class TelaMov(TelaAbstract):
     def dados_movimento(self):
         sg.ChangeLookAndFeel('DarkTeal4')
         layout = [
-            [sg.Text('-------- MOVIMENTAÇÃO ----------', font=("Helvica", 25))],
+            [sg.Text('-------- Movimentação --------', font=("Helvica", 25))],
             [sg.Text('QUANTIDADE:', size=(15, 1)), sg.InputText('', key='qt_mov')],
             [sg.Text('INSTITUIDOR:', size=(15, 1)), sg.InputText('', key='instituidor')],
             [sg.Text('MOTIVO:', size=(15, 1)), sg.InputText('', key='motivo')],
@@ -63,7 +63,7 @@ class TelaMov(TelaAbstract):
     def escolhe_brinde(self):
         sg.ChangeLookAndFeel('DarkTeal4')
         layout = [
-            [sg.Text('-------- QUAL BRINDE DESEJA MOVIMENTAR ----------', font=("Helvica", 25))],
+            [sg.Text('-------- Qual Brinde Deseja Movimentar --------', font=("Helvica", 25))],
             [sg.Text('NOME DO BRINDE:', size=(15, 1)), sg.InputText('', key='brinde')],
             [sg.Text('ID DO RESPONSAVEL:', size=(15, 1)), sg.InputText('', key='id')],
             [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
@@ -96,7 +96,7 @@ class TelaMov(TelaAbstract):
     def seleciona_movimento(self):
         sg.ChangeLookAndFeel('DarkTeal4')
         layout = [
-            [sg.Text('-------- SELECIONAR MOVIMENTAÇÃO ----------', font=("Helvica", 25))],
+            [sg.Text('-------- Selecionar Movimentação --------', font=("Helvica", 25))],
             [sg.Text('Digite o codigo da movimentação:', font=("Helvica", 15))],
             [sg.Text('CODIGO:', size=(15, 1)), sg.InputText('', key='codigo')],
             [sg.Button('Confirmar'), sg.Cancel('Cancelar')]

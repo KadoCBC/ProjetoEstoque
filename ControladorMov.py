@@ -100,11 +100,16 @@ class ControladorMov():
         # Adiciona o nome do brinde na lista de brindes e a quantidade na lista de quantidades com indice sendo a referencia
         for brinde in brindes:
             lista_brindes.append(brinde.nome)
+            print(brinde.nome)
             quantidade = 0
             for mov in self.lista_mov:
+                print(brinde.id)
+                print(mov.brinde["id"])
                 if mov.brinde["id"] == brinde.id and mov.tipo_mov == 'Saida':
                     quantidade = mov.qt_mov + quantidade
+                    print(quantidade)
             lista_quantidades.append(quantidade)
+            print(len(lista_quantidades))
         matriz_lista = [lista_brindes, lista_quantidades]
         self.__tela_mov.mostrar_mensagem('RANK DE BRINDES')
         self.__tela_mov.mostrar_rank(matriz_lista)

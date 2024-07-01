@@ -28,7 +28,7 @@ class TelaCategoriaBrinde(TelaAbstract):
     def init_opcoes(self):
         sg.ChangeLookAndFeel('DarkTeal4')
         layout = [
-            [sg.Text('------------ Categorias ---------', font=("Helvica", 25))],
+            [sg.Text('--------- Categorias ---------', font=("Helvica", 25))],
             [sg.Text('Escolha sua opção', font=("Helvica", 15))],
             [sg.Radio('Criar Categoria', "RD1", key='1')],
             [sg.Radio('Listar Categorias', "RD1", key='2')],
@@ -43,7 +43,7 @@ class TelaCategoriaBrinde(TelaAbstract):
     def pega_dados_categoria(self):
         sg.ChangeLookAndFeel('DarkTeal4')
         layout = [
-            [sg.Text('-------- DADOS CATEGORIA ----------', font=("Helvica", 25))],
+            [sg.Text('-------- Dados Categoria --------', font=("Helvica", 25))],
             [sg.Text('Nome:', size=(15, 1)), sg.InputText('', key='nome')],
             [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
         ]
@@ -64,7 +64,7 @@ class TelaCategoriaBrinde(TelaAbstract):
     def seleciona_categoria(self):
         sg.ChangeLookAndFeel('DarkTeal4')
         layout = [
-            [sg.Text('-------- SELECIONAR CATEGORIA ----------', font=("Helvica", 25))],
+            [sg.Text('-------- Selecionar Categoria ----------', font=("Helvica", 25))],
             [sg.Text('Digite o nome da categoria que deseja selecionar:', font=("Helvica", 15))],
             [sg.Text('Nome:', size=(15, 1)), sg.InputText('', key='nome')],
             [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
