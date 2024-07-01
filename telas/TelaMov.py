@@ -28,7 +28,7 @@ class TelaMov(TelaAbstract):
     def init_opcoes(self):
         sg.ChangeLookAndFeel('DarkTeal4')
         layout = [
-            [sg.Text('--------- Brindes ---------', font=("Helvica", 25))],
+            [sg.Text('--------- Movimentações ---------', font=("Helvica", 25))],
             [sg.Text('Escolha sua opção', font=("Helvica", 15))],
             [sg.Radio('Registrar movimento', "RD1", key='1')],
             [sg.Radio('Listar movimento', "RD1", key='2')],
@@ -118,8 +118,8 @@ class TelaMov(TelaAbstract):
         while len(lista_quantidade) > 0 or posicao_rank > 10:
             maior_qt = lista_quantidade[0]
             indice_nome = 0
+            indice_atual = 0
             for dado in lista_quantidade:
-                indice_atual = 0
                 if maior_qt > dado:
                     maior_qt = dado
                     indice_nome = indice_atual
