@@ -1,50 +1,107 @@
+import PySimpleGUI as sg
+
+
 class TelaPreco():
 
+    def __init__(self):
+        self.__window = None
+        self.init_opcoes()
+
     def tela_opcoes(self):
-        print('----------- TELA DE OPÇÕES -----------')
-        print('[1] - Criar novo Preco')
-        print('[2] - Listar Preços')
-        print('[3] - Alterar Preço')
-        print('[4] - Excluir Preço')
-        print('[5] - Vincular Preço')
-        print('[0] - Retornar')
-        # Faz um loop até o input retornar um numero inteiro entre dois numeros
-        while True:
-            escolha_usuario = input('Escolha um número: ')
-            try:
-                escolha_usuario = int(escolha_usuario)
-                if 0 <= escolha_usuario <= 5:
-                    return escolha_usuario
-                else:
-                    print('Digite um número válido entre 0 e 5.')
-            except ValueError:
-                print('Entrada inválida. Por favor, digite um número.')
-        
+        self.init_opcoes()
+        button, values = self.open()
+        #fazer tratamento
+        if values['1']:
+            opcao = 1
+        if values['2']:
+            opcao = 2
+        if values['3']:
+            opcao = 3
+        if values['4']:
+            opcao = 4
+        if values['5']:
+            opcao = 5
+        if values['0'] or button in (None, 'Cancelar'):
+            opcao = 0
+        self.close()
+        return opcao
+
+    def init_opcoes(self):
+        sg.ChangeLookAndFeel('DarkTeal4')
+        layout = [
+            [sg.Text('------------ Preços ---------', font=("Helvica", 25))],
+            [sg.Text('Escolha sua opção', font=("Helvica", 15))],
+            [sg.Radio('Criar Preço', "RD1", key='1')],
+            [sg.Radio('Listar Preços', "RD1", key='2')],
+            [sg.Radio('Alterar Preço', "RD1", key='3')],
+            [sg.Radio('Excluir Preço', "RD1", key='4')],
+            [sg.Radio('Vincular Preço', "RD1", key='5')],
+            [sg.Radio('Retornar', "RD1", key='0')],
+            [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
+        ]
+        self.__window = sg.Window('Sistema de Brindes').Layout(layout)
+
     def pega_dados_preco(self):
-        valor = input('Valor: ')
-        data = str(input('Data: '))
-        id = input("Id (Brinde): ")
-        return {"valor": valor, "data": data, "id":id}
+        sg.ChangeLookAndFeel('DarkTeal4')
+        layout = [
+            [sg.Text('-------- DADOS BRINDE ----------', font=("Helvica", 25))],
+            [sg.Text('Valor:', size=(15, 1)), sg.InputText('', key='valor')],
+            [sg.Text('Data:', size=(15, 1)), sg.InputText('', key='data')],
+            [sg.Text('ID:', size=(15, 1)), sg.InputText('', key='id')],
+            [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
+        ]
+        self.__window = sg.Window('Sistema de Brindes').Layout(layout)
+
+        button, values = self.open()
+        valor = str(values['valor'])
+        data = values['data']
+        id = values['id']
+
+        self.close()
+        return {"valor": valor, "data": data, "id": id}
     
     def mostrar_preco(self, dados_preco):
-        print('------------------------------------------')
-        print (f'Valor: R${dados_preco["valor"]}')
-        print("Data:", dados_preco["data"])
-        print("Id:", dados_preco["id"])
-        print('------------------------------------------')
+        string_todos_preco = ""
+        for dado in dados_preco:
+            string_todos_preco = string_todos_preco + "VALOR" + str(dado["valor"]) + '\n'
+            string_todos_brinde = string_todos_brinde + "DATA: " + str(dado["data"]) + '\n'
+        sg.Popup('-------- LISTA DE PREÇOS ----------', string_todos_preco)
 
-    def escolhe_fornecedor(self):
-        esocolha_fornecedor = int(input("Escolha o id do fornecedor: "))
-        return esocolha_fornecedor
-    
-    
     def seleciona_preco(self):
-        id = input("Id do Preco: ")
+        sg.ChangeLookAndFeel('DarkTeal4')
+        layout = [
+            [sg.Text('-------- SELECIONAR PREÇO ----------', font=("Helvica", 25))],
+            [sg.Text('Digite o id do Preço:', font=("Helvica", 15))],
+            [sg.Text('ID:', size=(15, 1)), sg.InputText('', key='id')],
+            [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
+        ]
+        self.__window = sg.Window('Seleciona Preço').Layout(layout)
+
+        button, values = self.open()
+        id = values['id']
+        self.close()
         return id
     
-    def vincula_preco(self):
-        brinde = input("nome do Brinde: ")
-        return brinde
-    
+    def escolhe_fornecedor(self):
+        sg.ChangeLookAndFeel('DarkTeal4')
+        layout = [
+            [sg.Text('-------- FORNECEDOR ----------', font=("Helvica", 25))],
+            [sg.Text('Fornecedor:', size=(15, 1)), sg.InputText('', key='fornecedor')],
+            [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
+        ]
+        self.__window = sg.Window('Sistema de Brindes').Layout(layout)
+
+        button, values = self.open()
+        id_fornecedor = values['fornecedor']
+        self.close()
+        return id_fornecedor
+
     def mostrar_mensagem(self, msg):
-        print(msg)
+        sg.popup("", msg)
+
+    def close(self):
+        self.__window.Close()
+
+    def open(self):
+        button, values = self.__window.Read()
+        return button, values

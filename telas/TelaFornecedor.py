@@ -1,46 +1,109 @@
+import PySimpleGUI as sg
+
+
 class TelaFornecedor():
 
+    def __init__(self):
+        self.__window = None
+        self.init_opcoes()
+
     def tela_opcoes(self):
-        print('---------TELA DE OPÇÕES----------')
-        print('[1] - Criar Novo Fornecedor')
-        print('[2] - Listar Fornecedores')
-        print('[3] - Alterar Fornecedor')
-        print('[4] - Exluir Fornecedor')
-        print('[5] - Adicionar endereço')
-        print('[6] - Listar Endereços')
-        print('[0] - Retornar')
-        # Faz um loop até o input retornar um numero inteiro entre dois numeros
-        while True:
-            escolha_usuario = input('Escolha um número: ')
-            try:
-                escolha_usuario = int(escolha_usuario)
-                if 0 <= escolha_usuario <= 6:
-                    return escolha_usuario
-                else:
-                    print('Digite um número válido entre 0 e 6.')
-            except ValueError:
-                print('Entrada inválida. Por favor, digite um número.')
-        
-    def pega_dados_fornecdor(self):
-        nome = input('Nome: ')
+        self.init_opcoes()
+        button, values = self.open()
+        #fazer tratamento
+        if values['1']:
+            opcao = 1
+        if values['2']:
+            opcao = 2
+        if values['3']:
+            opcao = 3
+        if values['4']:
+            opcao = 4
+        if values['5']:
+            opcao = 5
+        if values['6']:
+            opcao = 6
+        if values['0'] or button in (None, 'Cancelar'):
+            opcao = 0
+        self.close()
+        return opcao
+
+    def init_opcoes(self):
+        sg.ChangeLookAndFeel('DarkTeal4')
+        layout = [
+            [sg.Text('------------ Fornecedores ---------', font=("Helvica", 25))],
+            [sg.Text('Escolha sua opção', font=("Helvica", 15))],
+            [sg.Radio('Incluir fornecedor', "RD1", key='1')],
+            [sg.Radio('Listar fornecedores', "RD1", key='2')],
+            [sg.Radio('Alterar fornecedor', "RD1", key='3')],
+            [sg.Radio('Excluir fornecedor', "RD1", key='4')],
+            [sg.Radio('Adicionar endereço', "RD1", key='5')],
+            [sg.Radio('Listar endereços', "RD1", key='6')],
+            [sg.Radio('Retornar', "RD1", key='0')],
+            [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
+        ]
+        self.__window = sg.Window('Sistema de Brindes').Layout(layout)
+
+
+    def pega_dados_fornecedor(self):
+        sg.ChangeLookAndFeel('DarkTeal4')
+        layout = [
+            [sg.Text('-------- DADOS FORNECEDOR ----------', font=("Helvica", 25))],
+            [sg.Text('Nome:', size=(15, 1)), sg.InputText('', key='nome')],
+            [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
+        ]
+        self.__window = sg.Window('Sistema de Brindes').Layout(layout)
+
+        button, values = self.open()
+        nome = values['nome']
+
+        self.close()
         return {"nome": nome}
     
     def pega_dados_endereco(self):
-        rua = input("Rua: ")
-        complemento = input("Complemento: ")
-        bairro = input("Bairro: ")
-        cidade = input("Cidade: ")
-        cep = input("CEP: ")
-        return {"rua": rua, "complemento": complemento, "bairro": bairro, "cidade": cidade, "cep": cep}
-    
+        sg.ChangeLookAndFeel('DarkTeal4')
+        layout = [
+            [sg.Text('-------- DADOS ENDEREÇO ----------', font=("Helvica", 25))],
+            [sg.Text('Logradouro:', size=(15, 1)), sg.InputText('', key='logradouro')],
+            [sg.Text('Cidade:', size=(15, 1)), sg.InputText('', key='cidade')],
+            [sg.Text('Estado:', size=(15, 1)), sg.InputText('', key='estado')],
+            [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
+        ]
+        self.__window = sg.Window('Sistema de Brindes').Layout(layout)
+
+        button, values = self.open()
+        logradouro = values['logradouro']
+        cidade = values['cidade']
+        estado = values['estado']
+        
     def mostrar_fornecedor(self, dados_fornecedor):
-        print("ID:" , dados_fornecedor["id"])
-        print("Nome:" , dados_fornecedor["nome"])    
-        print('------------------------------------------')
+        string_todos_fornecedores = ""
+        for dado in dados_fornecedor:
+            string_todos_fornecedores = string_todos_fornecedores + "NOME DO FORNECEDOR: " + dado["nome"] + '\n'
+
+        sg.Popup('-------- LISTA DE FONECEDOR ----------', string_todos_fornecedores)
 
     def seleciona_fornecedor(self):
-        id = int(input("ID do fornecedor que deseja selecionar: "))
+        sg.ChangeLookAndFeel('DarkTeal4')
+        layout = [
+            [sg.Text('-------- SELECIONAR FORNECEDOR ----------', font=("Helvica", 25))],
+            [sg.Text('Digite o ID do fornecedor que deseja selecionar:', font=("Helvica", 15))],
+            [sg.Text('ID:', size=(15, 1)), sg.InputText('', key='ID')],
+            [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
+        ]
+        self.__window = sg.Window('Seleciona fornecedor').Layout(layout)
+
+        button, values = self.open()
+        id = values['ID']
+        self.close()
         return id
     
     def mostrar_mensagem(self, msg):
-        print(msg)
+        sg.popup("", msg)
+
+    def close(self):
+        self.__window.Close()
+
+    def open(self):
+        button, values = self.__window.Read()
+        return button, values
