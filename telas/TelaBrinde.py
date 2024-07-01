@@ -65,6 +65,7 @@ class TelaBrinde(TelaAbstract):
     def mostrar_brinde(self, dados_brinde):
         string_todos_brinde = ""
         for dado in dados_brinde:
+            string_todos_brinde = string_todos_brinde + "ID: " + str(dado["id"]) + '\n'
             string_todos_brinde = string_todos_brinde + "BRINDE: " + str(dado["nome"]) + '\n'
             string_todos_brinde = string_todos_brinde + "QUANTIDADE: " + str(dado["quantidade"]) + '\n\n'
             #falta incluir preco e categoria(no controlador também)

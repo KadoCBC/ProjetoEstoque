@@ -10,10 +10,19 @@ class ControladorBrinde():
         self.__controlador_sistema = controlador_sistema
         self.__brinde_DAO = BrindeDAO()
         self.__tela_brinde = TelaBrinde()
+        self.__id_unico = 0
     
     @property
     def lista_brindes(self):
         return self.__brinde_DAO.get_all()
+    
+    @property
+    def id_unico(self):
+        return self.__id_unico
+    
+    @id_unico.setter
+    def id_unico(self, valor):
+        self.__id_unico = valor
     
     #Se a lista não tiver vazia, procura o brinde pelo atributo nome e retorna
     def procura_brindes(self, nome_brinde):
@@ -44,10 +53,10 @@ class ControladorBrinde():
         #Tratamento de dados NOME BRINDE
         try:
             if brinde == None and quantidade != None:
-                cria_id = len(self.lista_brindes)
-                while self.procura_brindes_id(cria_id) is not None:
-                    cria_id = cria_id + 1
-                brinde = Brinde(nome, quantidade, cria_id)
+                #Cria um id unico para cada brinde
+                id = self.__id_unico
+                brinde = Brinde(nome, quantidade, id)
+                self.__id_unico = id + 1
             elif quantidade == None:
                 return
             else:
@@ -79,7 +88,7 @@ class ControladorBrinde():
                 raise KeyError
             else:
                 dados_brinde = ({"nome": brinde.nome, "quantidade": self.calcula_estoque(brinde),
-                                            "preco": brinde.preco_atual()},)
+                                        "preco": brinde.preco_atual(), "id": brinde.id})
             self.__tela_brinde.mostrar_brinde(dados_brinde)
         except KeyError:
             self.__tela_brinde.mostrar_mensagem('Brinde não encontrado!')
@@ -94,7 +103,7 @@ class ControladorBrinde():
         dados_brinde = []
         for brinde in self.lista_brindes:
             dados_brinde.append({"nome": brinde.nome, "quantidade": self.calcula_estoque(brinde),
-                                               "preco": brinde.preco_atual()})
+                                               "preco": brinde.preco_atual(), "id": brinde.id})
         self.__tela_brinde.mostrar_brinde(dados_brinde)
 
     # Altera os atributos de um Brinde
@@ -146,8 +155,7 @@ class ControladorBrinde():
         #Pega o estoque inicial e soma com as movimentações e retorna
         estoque = brinde.quantidade
         for mov in lista_mov:
-            if mov.brinde == brinde:
-                print('chegou aqui')
+            if mov.brinde["id"] == brinde.id:
                 estoque = mov.qt_mov + estoque
         return estoque
 
