@@ -1,49 +1,59 @@
 from entidades.Preco import Preco
 from telas.TelaPreco import TelaPreco
+from DAOs.Preco_dao import PrecoDAO
 
 class ControladorPreco:
     def __init__(self, controlador_sistema):
         self.__controlador_sistema = controlador_sistema
         self.__lista_precos = []
         self.__tela_preco = TelaPreco()
+        self.__preco_DAO = PrecoDAO()
     
     @property
-    def lista_precos(self):
-        return self.__lista_precos
+    def precos(self):
+        self.__fornecedor_DAO.get_all() 
     
     def procura_precos(self, id_preco):
-        if len(self.lista_precos) > 0:
-            for preco in self.lista_precos:
+        if len(self.precos) > 0:
+            for preco in self.precos:
                 if id_preco == preco.id:
                     return preco
         else:
             return None
     
     def incluir_preco(self):
-         #Escolhe um fornecedor dentro da lista de fornecedores
         id_fornecedor = self.__tela_preco.escolhe_fornecedor()
         fornecedor = self.__controlador_sistema.controlador_fornecedor.procura_fornecedor(id_fornecedor)
         if fornecedor is None:
             self.__tela_preco.mostrar_mensagem('Fornecedor não encontrado')
-            return
+            return None
         dados_preco = self.__tela_preco.pega_dados_preco()
-        preco = Preco(dados_preco["valor"], dados_preco["data"], dados_preco["id"], fornecedor)
-        self.__lista_precos.append(preco)
-        self.__tela_preco.mostrar_mensagem('**Preço criado com Sucesso!**')
+        valor = dados_preco["valor"]
+        data = dados_preco["data"]
+        id = dados_preco["id"]
+        try:
+            if valor == '' or data == '' or id == '':
+                raise KeyError
+            else:
+                preco = Preco(valor, data, id)
+                self.__preco_DAO.add(preco)
+                self.__lista_precos.append(preco)
+        except KeyError:
+            self.__tela_preco.mostrar_mensagem('Campo de valor, data ou id vazio, tente novamente')
 
     def excluir_preco(self):
         if len(self.__lista_precos) == 0:
             self.__tela_preco.mostrar_mensagem('Lista de preços está vazia')
             return None
-        self.__tela_preco.mostrar_mensagem('Digite o id do Preço que deseja excluir')
+        self.__tela_preco.mostrar_mensagem('Excluir Preço:')
         id_preco = self.__tela_preco.seleciona_preco()
-        #Procura o preco na lista de preços
         preco_excluir = self.procura_precos(id_preco)
         if isinstance(preco_excluir, Preco):
+            self.__preco_DAO.remove(preco_excluir)
             self.__lista_precos.remove(preco_excluir)
-            self.__tela_preco.mostrar_mensagem('Preço excluido com sucesso!')
+            self.__tela_preco.mostrar_mensagem('**Preço excluido com sucesso!**')
         else:
-            self.__tela_preco.mostrar_mensagem('Preço não encontrado')
+            self.__tela_preco.mostrar_mensagem('Preço não encontrado!')
             
     def alterar_preco(self):
         if len(self.__lista_precos) == 0:
@@ -56,9 +66,8 @@ class ControladorPreco:
             dados_preco = self.__tela_preco.pega_dados_preco()
             preco_alterar.valor = dados_preco["valor"]
             preco_alterar.data = dados_preco["data"]
-            preco_alterar.id = dados_preco["id"]
+            self.__preco_DAO.update(preco_alterar)
             self.__tela_preco.mostrar_mensagem('**Preço alterado com sucesso!**')
-
         else:
             self.__tela_preco.mostrar_mensagem('Preço não encontrado!')
 
@@ -66,10 +75,11 @@ class ControladorPreco:
         if len(self.__lista_precos) == 0:
             self.__tela_preco.mostrar_mensagem('Lista de preços está vazia')
             return None
-        self.__tela_preco.mostrar_mensagem('LISTA DE PREÇOS')        
+        dados_preco = []
         for preco in self.__lista_precos:
-            self.__tela_preco.mostrar_preco({"valor": preco.valor, "data": preco.data,"id": preco.id})
-    
+            dados_preco.append({"valor": preco.valor, "data": preco.data, "id": preco.id})
+        self.__tela_preco.mostrar_preco(dados_preco)
+
     def vincular_preco(self):
         if len(self.__lista_precos) == 0:
             self.__tela_preco.mostrar_mensagem('Lista de preços está vazia')

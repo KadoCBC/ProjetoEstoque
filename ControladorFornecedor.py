@@ -17,7 +17,6 @@ class ControladorFornecedor:
         return self.__fornecedor_DAO.get_all()
 
     def procura_fornecedor(self, id):
-        print(id)
         if len(self.fornecedores) > 0:
             for fornecedor in self.fornecedores:
                 if id == fornecedor.id:
