@@ -1,7 +1,8 @@
 import PySimpleGUI as sg
+from telas.TelaAbstract import TelaAbstract 
 
 
-class TelaBrinde():
+class TelaBrinde(TelaAbstract):
 
     def __init__(self):
         self.__window = None
@@ -54,7 +55,8 @@ class TelaBrinde():
 
         button, values = self.open()
         nome = str(values['nome'])
-        quantidade = values['quantidade']
+        qt = values['quantidade']
+        quantidade = self.le_num_inteiro(qt)
         categoria_brinde = values['categoria_brinde']
 
         self.close()
@@ -64,9 +66,9 @@ class TelaBrinde():
         string_todos_brinde = ""
         for dado in dados_brinde:
             string_todos_brinde = string_todos_brinde + "BRINDE: " + str(dado["nome"]) + '\n'
-            string_todos_brinde = string_todos_brinde + "QUANTIDADE: " + str(dado["quantidade"]) + '\n'
+            string_todos_brinde = string_todos_brinde + "QUANTIDADE: " + str(dado["quantidade"]) + '\n\n'
             #falta incluir preco e categoria(no controlador também)
-        sg.Popup('-------- LISTA DE USUARIOS ----------', string_todos_brinde)
+        sg.Popup('-------- LISTA DE BRINDES ----------', string_todos_brinde)
 
     def seleciona_brinde(self):
         sg.ChangeLookAndFeel('DarkTeal4')

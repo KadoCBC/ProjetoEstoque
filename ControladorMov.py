@@ -26,32 +26,34 @@ class ControladorMov():
     def incluir_mov(self):
         #Confere se o brinde escolhido para movimentar está na lista de brindes 
         nome_brinde = self.__tela_mov.escolhe_brinde()
-        brinde = self.__controlador_sistema.controlador_brinde.procura_brindes(nome_brinde['brinde'])
+        brinde = self.__controlador_sistema.controlador_brinde.procura_brindes(nome_brinde["brinde"])
         if brinde is None:
             self.__tela_mov.mostrar_mensagem('Brinde não encontrado')
             return
         #Escolhe um usuario dentro da lista de usuarios
-        id_usuario = self.__tela_mov.escolhe_usuario()
+        id_usuario = nome_brinde["usuario"]
         usuario = self.__controlador_sistema.controlador_usuario.procura_usuario(id_usuario)
         if usuario is None:
             self.__tela_mov.mostrar_mensagem('Usuario não encontrado')
             return
         #Pega os dados da movimentação
         dados_mov = self.__tela_mov.dados_movimento()
-        #verifica se tem o brinde em estoque
+        quantidade = dados_mov["qt_mov"]
+        if quantidade == None:
+            return 
+        #Verifica se tem o brinde em estoque
         qt_em_estoque = self.__controlador_sistema.controlador_brinde.calcula_estoque(brinde)
-        operacao_vef = qt_em_estoque + dados_mov["quantidade"]
+        operacao_vef = qt_em_estoque + quantidade
         if operacao_vef < 0:
-            self.__tela_mov.mostrar_mensagem('Quantidade insuficiente em estoque!')
-            self.__tela_mov.mostrar_mensagem(f'quantidade em estoque: {qt_em_estoque}')
+            self.__tela_mov.mostrar_mensagem(f'Quantidade insuficiente em estoque!, quantidade em estoque: {qt_em_estoque}')
             return 
         #Cria um codigo diferente para cada movimentacao
         cria_codigo = len(self.lista_mov)
         while self.procura_movimentacao(cria_codigo) is not None:
             cria_codigo = cria_codigo + 1
         #Cria e inclui a movimentação na lista
-        movimentacao = Movimentacao(dados_mov["quantidade"], dados_mov["instituidor"], dados_mov["motivo"], 
-                                     cria_codigo, brinde.nome, usuario)
+        movimentacao = Movimentacao(quantidade, dados_mov["instituidor"], dados_mov["motivo"], 
+                                     cria_codigo, brinde, usuario)
         self.__movimentacao_DAO.add(movimentacao)
         self.__tela_mov.mostrar_mensagem('**Movimento criado com sucesso!**')
     

@@ -14,23 +14,29 @@ class ControladorUsuario():
         return self.__usuario_DAO.get_all()
     
     def procura_usuario(self, id):
-        print(id)
         if len(self.lista_usuario) > 0:
             for usuario in self.lista_usuario:
                 if id == usuario.id:
-                    print(usuario)
+                    print('tb')
                     return usuario
         else:
             return None
 
     def incluir_usuario(self):
         dados_usuario = self.__tela_usuario.pega_dados_usuario()
-        cria_id = len(self.lista_usuario)
-        while self.procura_usuario(cria_id) is not None:
-            cria_id = cria_id + 1
-        usuario = Usuario(dados_usuario["nome"], cria_id)
-        self.__usuario_DAO.add(usuario)
-    
+        nome = dados_usuario["nome"]
+        try:
+            if nome == '':
+                raise KeyError
+            else:
+                cria_id = len(self.lista_usuario)
+                while self.procura_usuario(cria_id) is not None:
+                    cria_id = cria_id + 1
+                usuario = Usuario(nome, cria_id)
+                self.__usuario_DAO.add(usuario)
+        except KeyError:
+            self.__tela_usuario.mostrar_mensagem('Campo de Nome vazio, tente novamente!')
+
     def listar_usuarios(self):
         if len(self.lista_usuario) == 0:
             self.__tela_usuario.mostrar_mensagem('Lista de Usuarios está vazia')
@@ -42,24 +48,33 @@ class ControladorUsuario():
 
     def alterar_usuario(self):
         id_usuario = self.__tela_usuario.seleciona_usuario()
+        if id_usuario == None:
+            return
         usuario_alterar = self.procura_usuario(id_usuario)
-        if isinstance(usuario_alterar, Usuario):
-            dados_usuario = self.__tela_usuario.pega_dados_usuario()
-            usuario_alterar.nome = dados_usuario["nome"]
-            self.__usuario_DAO.update(usuario_alterar)
-        else:
-            self.__tela_usuario.mostrar_mensagem('Usuario não encontrado!')
+        try:
+            if usuario_alterar == None:
+                raise KeyError
+            else:
+                dados_usuario = self.__tela_usuario.pega_dados_usuario()
+                usuario_alterar.nome = dados_usuario["nome"]
+                self.__usuario_DAO.update(usuario_alterar)
+
+        except KeyError:
+            self.__tela_usuario.mostrar_mensagem('Usuario não existe')
             
-    
     def excluir_usuario(self):
-        self.__tela_usuario.mostrar_mensagem('Excluir Usuario: ')
         id_usuario = self.__tela_usuario.seleciona_usuario()
-        #Fazer codigo para verificar se é inteiro
+        if id_usuario == None:
+            return
         usuario_excluir = self.procura_usuario(id_usuario)
-        if isinstance(usuario_excluir, Usuario):
-            self.__usuario_DAO.remove(usuario_excluir)
-        else:
-            self.__tela_usuario.mostrar_mensagem('Usuario não encontrado!')
+        try:
+            if usuario_excluir == None:
+                raise KeyError
+            else:
+                self.__usuario_DAO.remove(usuario_excluir.id)
+
+        except KeyError:
+            self.__tela_usuario.mostrar_mensagem('Usuario não existe')
             
     def retornar(self):
         self.__controlador_sistema.abre_tela()

@@ -1,6 +1,7 @@
 from entidades.Brinde import Brinde
 from telas.TelaBrinde import TelaBrinde
 from DAOs.Brinde_dao import BrindeDAO
+from Exceptions.brinde_repetido_exception import BrindeRepetidoException
 
 
 class ControladorBrinde():
@@ -14,19 +15,6 @@ class ControladorBrinde():
     def lista_brindes(self):
         return self.__brinde_DAO.get_all()
     
-    #Pega os dados do Brinde, instancia e inclui na lista
-    def incluir_brinde(self):
-        dados_brinde = self.__tela_brinde.pega_dados_brinde()
-        brinde = Brinde(dados_brinde["nome"], dados_brinde["quantidade"])
-        categoria_nome = dados_brinde["categoria_brinde"]
-        categoria_brinde = self.__controlador_sistema.controlador_categoria_brinde.procura_categoria(categoria_nome)
-        if categoria_brinde in self.__controlador_sistema.controlador_categoria_brinde.lista_categorias:
-            brinde.categoria_brinde = categoria_brinde
-        else:
-            self.__tela_brinde.mostrar_mensagem('Categoria não encontrada - Adicionado valor padrão')
-        self.__brinde_DAO.add(brinde)
-        self.__tela_brinde.mostrar_mensagem('**Brinde Criado com Sucesso!**')
-
     #Se a lista não tiver vazia, procura o brinde pelo atributo nome e retorna
     def procura_brindes(self, nome_brinde):
         if len(self.lista_brindes) > 0:
@@ -38,18 +26,65 @@ class ControladorBrinde():
             print(type(nome_brinde))
             print('oi')
             return None
+    #PROCURA POR ID
+    def procura_brindes_id(self, id):
+        if len(self.lista_brindes) > 0:
+            for brinde in self.lista_brindes:
+                if id == brinde.id:
+                    print('achou')
+                    return brinde
+            return None
     
+    #Pega os dados do Brinde, instancia e inclui na lista
+    def incluir_brinde(self):
+        dados_brinde = self.__tela_brinde.pega_dados_brinde()
+        nome = dados_brinde["nome"]
+        quantidade = dados_brinde["quantidade"]
+        brinde = self.procura_brindes(nome)
+        #Tratamento de dados NOME BRINDE
+        try:
+            if brinde == None and quantidade != None:
+                cria_id = len(self.lista_brindes)
+                while self.procura_brindes_id(cria_id) is not None:
+                    cria_id = cria_id + 1
+                brinde = Brinde(nome, quantidade, cria_id)
+            elif quantidade == None:
+                return
+            else:
+                raise BrindeRepetidoException(nome)
+        except BrindeRepetidoException as e:
+            self.__tela_brinde.mostrar_mensagem(e)
+            return
+        categoria_nome = dados_brinde["categoria_brinde"]
+        categoria_brinde = self.__controlador_sistema.controlador_categoria_brinde.procura_categoria(categoria_nome)
+        #tratamento de dados categoria de brinde
+        try:
+            if categoria_brinde == None:
+                raise KeyError
+            else:
+                brinde.categoria_brinde = categoria_brinde
+        except KeyError:
+            self.__tela_brinde.mostrar_mensagem('Categoria não existe, valor :Geral: foi adicionado')
+        self.__brinde_DAO.add(brinde)
+        self.__tela_brinde.mostrar_mensagem('Brinde Criado com Sucesso!')
+
     #Retorna na tela as informações de um Brinde
     def informa_brinde(self):
         self.__tela_brinde.mostrar_mensagem('INFORMAÇÕES DO BRINDE')
         nome_brinde = self.__tela_brinde.seleciona_brinde()
         brinde = self.procura_brindes(nome_brinde)
-        if isinstance(brinde, Brinde):
-            dados_brinde = ({"nome": brinde.nome, "quantidade": self.calcula_estoque(brinde),
+        #tratamento de dados
+        try:
+            if brinde == None:
+                raise KeyError
+            else:
+                dados_brinde = ({"nome": brinde.nome, "quantidade": self.calcula_estoque(brinde),
                                             "preco": brinde.preco_atual()},)
             self.__tela_brinde.mostrar_brinde(dados_brinde)
-        else:
-            self.__tela_brinde.mostrar_mensagem('**Brinde não encontrado**')
+        except KeyError:
+            self.__tela_brinde.mostrar_mensagem('Brinde não encontrado!')
+            return
+ 
     #Envia os dados para a tela Printar a Lista de brindes
     def listar_brindes(self):
         #Verifica se a lista ta vazia
@@ -57,7 +92,6 @@ class ControladorBrinde():
             self.__tela_brinde.mostrar_mensagem('Lista está Vazia')
             return None
         dados_brinde = []
-        self.__tela_brinde.mostrar_mensagem('LISTA DE BRINDES')
         for brinde in self.lista_brindes:
             dados_brinde.append({"nome": brinde.nome, "quantidade": self.calcula_estoque(brinde),
                                                "preco": brinde.preco_atual()})
@@ -65,37 +99,46 @@ class ControladorBrinde():
 
     # Altera os atributos de um Brinde
     def alterar_brinde(self):
-        self.__tela_brinde.mostrar_mensagem('informe o Brinde que deseja alterar!')
         #Procura o brinde na lista de brindes
         nome_brinde = self.__tela_brinde.seleciona_brinde()
+        quantidade = dados_brinde["quantidade"]
         brinde_alterar = self.procura_brindes(nome_brinde)
-        #Verifica se o retorno da função é um Brinde  e instancia
-        if isinstance(brinde_alterar, Brinde):
-            dados_brinde = self.__tela_brinde.pega_dados_brinde()
-            brinde_alterar.nome = dados_brinde["nome"]
-            brinde_alterar.quantidade = dados_brinde["quantidade"]
-            categoria_brinde = dados_brinde["categoria_brinde"]
-            if categoria_brinde in self.__controlador_sistema.controlador_categoria_brinde.lista_categorias:
-                brinde_alterar.categoria_brinde = categoria_brinde
+        #Tratamento de Dados
+        try:
+            if brinde_alterar == None:
+                raise KeyError
+            elif quantidade == None:
+                return
             else:
-                self.__tela_brinde.mostrar_mensagem('Categoria não encontrada - Adicionado valor padrão')
-            self.__brinde_DAO.update(brinde_alterar)
-            self.__tela_brinde.mostrar_mensagem('**Brinde Alterado com sucesso!**')
-        else:
-            self.__tela_brinde.mostrar_mensagem('**Brinde não encontrado**')
-            
+                dados_brinde = self.__tela_brinde.pega_dados_brinde()
+                brinde_alterar.nome = dados_brinde["nome"]
+                brinde_alterar.quantidade = dados_brinde["quantidade"]
+                categoria_brinde = dados_brinde["categoria_brinde"]
+                if categoria_brinde in self.__controlador_sistema.controlador_categoria_brinde.lista_categorias:
+                    brinde_alterar.categoria_brinde = categoria_brinde
+                else:
+                    self.__tela_brinde.mostrar_mensagem('Categoria não encontrada - Adicionado valor padrão')
+                self.__brinde_DAO.update(brinde_alterar)
+                self.__tela_brinde.mostrar_mensagem('**Brinde Alterado com sucesso!**')
+        except KeyError:
+            self.__tela_brinde.mostrar_mensagem('Brinde não encontrado!')
+            return
 
     def excluir_brinde(self):
         self.__tela_brinde.mostrar_mensagem('Digite o Brinde que deseja excluir')
         nome_brinde = self.__tela_brinde.seleciona_brinde()
         #Procura o brinde na lista de brindes
         brinde_excluir = self.procura_brindes(nome_brinde)
-        if isinstance(brinde_excluir, Brinde):
-            self.__brinde_DAO.remove(brinde_excluir)
-            self.__tela_brinde.mostrar_mensagem('Brinde excluido com sucesso!')
-        else:
-            self.__tela_brinde.mostrar_mensagem('Brinde não encontrado')
-    
+        try:
+            if brinde_excluir == None:
+                raise KeyError
+            else:
+                self.__brinde_DAO.remove(brinde_excluir.id)
+                self.__tela_brinde.mostrar_mensagem('Brinde excluido com sucesso!')
+        except KeyError:
+            self.__tela_brinde.mostrar_mensagem('Brinde não encontrado!')
+            return
+
     #Calcula o estoque de um brinde a partir da lista de movimentações
     def calcula_estoque(self, brinde):
         #Recebe a lista de movimentações
@@ -103,7 +146,7 @@ class ControladorBrinde():
         #Pega o estoque inicial e soma com as movimentações e retorna
         estoque = brinde.quantidade
         for mov in lista_mov:
-            if mov.brinde == brinde.nome:
+            if mov.brinde == brinde:
                 print('chegou aqui')
                 estoque = mov.qt_mov + estoque
         return estoque

@@ -1,7 +1,7 @@
 
 
 class Brinde():
-    def __init__(self, nome: str, quantidade: int):
+    def __init__(self, nome: str, quantidade: int, id: int):
         if isinstance(quantidade, int):
             self.__quantidade = quantidade
         else:
@@ -9,6 +9,7 @@ class Brinde():
         self.__nome = nome
         self.__precos = []
         self.__categoria_brinde = "Geral"
+        self.__id = id
 
     @property
     def nome(self):
@@ -25,6 +26,10 @@ class Brinde():
     @property
     def lista_precos(self):
         return self.__precos
+    
+    @property
+    def id(self):
+        return self.__id
     
     @nome.setter
     def nome(self, nome):

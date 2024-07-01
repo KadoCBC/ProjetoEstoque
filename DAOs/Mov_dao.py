@@ -7,11 +7,11 @@ class MovimentacaoDAO(DAO):
     
     def add(self, movimentacao: Movimentacao):
         if((movimentacao is not None) and isinstance(movimentacao, Movimentacao) and isinstance(movimentacao.codigo, int)):
-            super().add(movimentacao.id, movimentacao)
+            super().add(movimentacao.codigo, movimentacao)
     
     def update(self, movimentacao: Movimentacao):
         if((movimentacao is not None) and isinstance(movimentacao, Movimentacao) and isinstance(movimentacao.codigo, int)):
-            super().update(movimentacao.id, movimentacao)
+            super().update(movimentacao.codigo, movimentacao)
 
     def get(self, key:int):
         if isinstance(key, int):

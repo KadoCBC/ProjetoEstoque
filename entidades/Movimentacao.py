@@ -1,9 +1,10 @@
 from datetime import datetime
+from entidades.Brinde import Brinde
 
 
 class Movimentacao():
 
-    def __init__(self, qt_mov, instituidor, motivo, codigo, brinde, responsavel):
+    def __init__(self, qt_mov, instituidor, motivo, codigo, brinde: Brinde , responsavel):
         self.__qt_mov = qt_mov
         self.__instituidor = instituidor
         self.__motivo = motivo

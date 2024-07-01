@@ -1,7 +1,8 @@
 import PySimpleGUI as sg
+from telas.TelaAbstract import TelaAbstract 
 
 
-class TelaUsuario():
+class TelaUsuario(TelaAbstract):
 
     def __init__(self):
         self.__window = None
@@ -57,7 +58,8 @@ class TelaUsuario():
     def mostrar_usuario(self, dados_usuario):
         string_todos_usuarios = ""
         for dado in dados_usuario:
-            string_todos_usuarios = string_todos_usuarios + "NOME DO AMIGO: " + dado["nome"] + '\n'
+            string_todos_usuarios = string_todos_usuarios + "NOME DO USUARIO: " + dado["nome"] + '\n'
+            string_todos_usuarios = string_todos_usuarios + "ID: " + str(dado["id"]) + '\n'
 
         sg.Popup('-------- LISTA DE USUARIOS ----------', string_todos_usuarios)
 
@@ -73,9 +75,10 @@ class TelaUsuario():
 
         button, values = self.open()
         id = values['ID']
+        
         self.close()
-        return id
-    
+        return self.le_num_inteiro(id)
+
     def mostrar_mensagem(self, msg):
         sg.popup("", msg)
 

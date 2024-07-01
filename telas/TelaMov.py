@@ -1,7 +1,8 @@
 import PySimpleGUI as sg
+from telas.TelaAbstract import TelaAbstract 
 
 
-class TelaMov():
+class TelaMov(TelaAbstract):
 
     def __init__(self):
         self.__window = None
@@ -51,27 +52,31 @@ class TelaMov():
         self.__window = sg.Window('Sistema de Brindes').Layout(layout)
 
         button, values = self.open()
-        nome = values['nome']
-        qt_mov = values['qt_mov']
+        instituidor = values['instituidor']
+        quantidade = values['qt_mov']
         motivo = values['motivo']
+        qt_mov = self.le_num_inteiro(quantidade)
 
         self.close()
-        return {"nome": nome, "qt_mov": qt_mov, "motivo": motivo}
+        return {"instituidor": instituidor, "qt_mov": qt_mov, "motivo": motivo}
     
     def escolhe_brinde(self):
         sg.ChangeLookAndFeel('DarkTeal4')
         layout = [
             [sg.Text('-------- QUAL BRINDE DESEJA MOVIMENTAR ----------', font=("Helvica", 25))],
             [sg.Text('NOME DO BRINDE:', size=(15, 1)), sg.InputText('', key='brinde')],
+            [sg.Text('ID DO RESPONSAVEL:', size=(15, 1)), sg.InputText('', key='id')],
             [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
         ]
         self.__window = sg.Window('Sistema de Brindes').Layout(layout)
 
         button, values = self.open()
         brinde = str(values['brinde'])
+        id = values['id']
+        usuario_id = self.le_num_inteiro(id)
         
         self.close()
-        return {"brinde": brinde}
+        return {"brinde": brinde, "usuario": usuario_id}
     
     def mostrar_movimento(self, dados_mov):
         string_todos_mov = ""
@@ -112,11 +117,3 @@ class TelaMov():
     def open(self):
         button, values = self.__window.Read()
         return button, values
-'''
-    
-    
-    def seleciona_movimento(self):
-        codigo = int(input("Codigo da movimentacao que deseja selecionar: "))
-        return codigo
-    
-'''
