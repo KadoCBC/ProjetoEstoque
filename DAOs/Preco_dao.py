@@ -8,11 +8,11 @@ class PrecoDAO(DAO):
     
     def add(self, preco: Preco):
         if((preco is not None) and isinstance(preco, Preco) and isinstance(preco.valor, int)):
-            super().add(preco.id, preco)
+            super().add(preco.valor, preco)
     
     def update(self, preco: Preco):
         if((preco is not None) and isinstance(preco, Preco) and isinstance(preco.valor, int)):
-            super().update(preco.id, preco)
+            super().update(preco.valor, preco)
 
     def get(self, key:int):
         if isinstance(key, int):

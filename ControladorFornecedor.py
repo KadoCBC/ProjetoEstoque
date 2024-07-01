@@ -74,7 +74,7 @@ class ControladorFornecedor:
     def excluir_fornecedor(self):
         id_fornecedor = self.__tela_fornecedor.seleciona_fornecedor()
         if id_fornecedor == None:
-            return
+            return          
         fornecedor_excluir = self.procura_fornecedor(id_fornecedor)
         try:
             if fornecedor_excluir == None:

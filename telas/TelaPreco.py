@@ -1,7 +1,7 @@
 import PySimpleGUI as sg
+from telas.TelaAbstract import TelaAbstract
 
-
-class TelaPreco():
+class TelaPreco(TelaAbstract):
 
     def __init__(self):
         self.__window = None
@@ -82,20 +82,36 @@ class TelaPreco():
         self.close()
         return id
     
-    def escolhe_fornecedor(self):
+    def seleciona_fornecedor(self):
         sg.ChangeLookAndFeel('DarkTeal4')
         layout = [
-            [sg.Text('-------- FORNECEDOR ----------', font=("Helvica", 25))],
-            [sg.Text('Fornecedor:', size=(15, 1)), sg.InputText('', key='fornecedor')],
+            [sg.Text('-------- SELECIONAR FORNECEDOR ----------', font=("Helvica", 25))],
+            [sg.Text('Digite o ID do fornecedor que deseja selecionar:', font=("Helvica", 15))],
+            [sg.Text('ID:', size=(15, 1)), sg.InputText('', key='ID')],
             [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
         ]
-        self.__window = sg.Window('Sistema de Brindes').Layout(layout)
+        self.__window = sg.Window('Seleciona fornecedor').Layout(layout)
 
         button, values = self.open()
-        id_fornecedor = values['fornecedor']
+        id = values['ID']
         self.close()
-        return id_fornecedor
+        return self.le_num_inteiro(id)
+    
+    def seleciona_brinde(self):
+        sg.ChangeLookAndFeel('DarkTeal4')
+        layout = [
+            [sg.Text('-------- SELECIONAR BRINDE ----------', font=("Helvica", 25))],
+            [sg.Text('Digite o nome do Brinde:', font=("Helvica", 15))],
+            [sg.Text('ID:', size=(15, 1)), sg.InputText('', key='id')],
+            [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
+        ]
+        self.__window = sg.Window('Seleciona Preço').Layout(layout)
 
+        button, values = self.open()
+        nome = values['nome']
+        self.close()
+        return nome
+    
     def mostrar_mensagem(self, msg):
         sg.popup("", msg)
 
